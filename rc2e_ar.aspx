@@ -69,7 +69,7 @@
 				bbmMask = [['txtDatea', r_picd]];
 				q_mask(bbmMask);
 				q_cmbParse("cmbKind", q_getPara('sys.stktype'));
-				$('#cmbKind').change(function() {				//變動尺寸欄位
+				$('#cmbKind').change(function(){  //變動尺寸欄位
 					size_change();
 				});
 			}
@@ -78,7 +78,7 @@
 				ret;
 				switch (b_pop){
 					case q_name + '_s':
-						q_boxClose2(s2);
+						 q_boxClose2(s2);
 						///   q_boxClose 3/4
 						break;
 				}/// end Switch
@@ -629,25 +629,25 @@
 			
                 <tr style='color:white; background:#003366;'>
                     <td align="center" style="width:30px;"><input class="btn" id="btnPlus" type="button" value='+' style="font-weight: bold;" /></td>
-                    <td align="center" style="width:20px;">序</td>
-                    <td align="center" style="width:120px;"><a id='lblStoreno_st2'>儲區</a></td>
-                    <td align="center" style="width:250px;"><a id='lblUno_st2'>鋼捲編號</a></td>
+                    <td align="center" style="width:20px;"><a>序</a></td>
+                    <td align="center" style="width:120px;"><a>儲區</a></td>
+                    <td align="center" style="width:250px;"><a>鋼捲編號</a></td>
                     <td align="center" style="width:120px;"><a id='lblProductno_st'> </a></td>
                     <td align="center" style="width:30px;"><a id='lblStyle_st'> </a></td>
-                    <td align="center" style="width:40px;">表面</td>
+                    <td align="center" style="width:40px;"><a>表面</a></td>
                     <td align="center" style="width:100px;"><a id='lblProduct_st'> </a></td>
-                    <td align="center" style="width:340px;" id='Size'><a id='lblSize_help'> </a><BR><a id='lblSize_st'> </a></td>
+                    <td align="center" style="width:340px;" id="Size"><a id="lblSize_help"> </a><BR><a id='lblSize_st'> </a></td>
                     <td align="center" style="width:150px;"><a id='lblSizea_st'> </a></td>
                     <td align="center" style="width:60px;"><a>公稱寬</a></td>
-                    <td align="center" style="width:50px;"><a id='lblUnit'>單位</a></td>
-                    <td align="center" style="width:80px;"><a id='lblMount_st'> </a></td>
+                    <td align="center" style="width:50px;"><a>單位</a></td>
+                    <td align="center" style="width:80px;"><a id="lblMount_st"> </a></td>
 					<td align="center" style="width:80px;"><a>淨重</a></td>
-                    <td align="center" style="width:80px;"><a id='lblWeights_st'>重量</a></td>
-                    <td align="center" style="width:80px;"><a id='lblPrices_st'>單價</a></td>
-                    <td align="center" style="width:80px;">報價單號</td>
-                    <td align="center" style="width:40px;">毛/修邊</td>
-                    <td align="center" style="width:90px;">繳庫日</td>
-                    <td align="center" style="width:220px;"><a id='lblMemos_st'>備註</a><br><a id='lblCert_st' style="display:none;"> </a></td>
+                    <td align="center" style="width:80px;"><a>毛重</a></td>
+                    <td align="center" style="width:80px;"><a id='lblPrice_st'> </a></td>
+                    <td align="center" style="width:80px;"><a>報價單號</a></td>
+                    <td align="center" style="width:40px;"><a>毛/修邊</a></td>
+                    <td align="center" style="width:90px;"><a>繳庫日</a></td>
+                    <td align="center" style="width:220px;"><a id='lblMemo_st'> </a><br><a id='lblCert_st' style="display:none;"> </a></td>
                 </tr>
 
                 <tr style='background:#cad3ff;'>
