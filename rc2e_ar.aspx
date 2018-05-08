@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
     <head>
-        <title></title>
+        <title> </title>
         <script src="../script/jquery.min.js" type="text/javascript"></script>
         <script src='../script/qj2.js' type="text/javascript"></script>
         <script src='qset.js' type="text/javascript"></script>
@@ -69,8 +69,7 @@
 				bbmMask = [['txtDatea', r_picd]];
 				q_mask(bbmMask);
 				q_cmbParse("cmbKind", q_getPara('sys.stktype'));
-				//變動尺寸欄位
-				$('#cmbKind').change(function() {
+				$('#cmbKind').change(function() {				//變動尺寸欄位
 					size_change();
 				});
 			}
@@ -571,14 +570,14 @@
             </div>
             <div class="dbbm">
                 <table class="tbbm" id="tbbm">
-                    <tr style="height:1px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="tdZ"></td></tr>
+                    <tr style="height:1px;"><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td class="tdZ"> </td></tr>
                     <tr>
                         <td><span> </span><a id="lblDatea" class="lbl"> </a></td>
                         <td><input id="txtDatea"  type="text" class="txt c1"/></td>
                         <td><span> </span><a id="lblNoa" class="lbl"> </a></td>
                         <td><input id="txtNoa"  type="text" class="txt c1"/></td>
                         <td><span> </span><a id="lblKind" class="lbl"> </a></td>
-                        <td><select id="cmbKind" class="txt c1"></select></td>
+                        <td><select id="cmbKind" class="txt c1"> </select></td>
                     </tr>
                     <tr>
                         <td><span> </span><a id="lblTggno" class="lbl btn"> </a></td>
@@ -648,7 +647,7 @@
                     <td align="center" style="width:80px;">報價單號</td>
                     <td align="center" style="width:40px;">毛/修邊</td>
                     <td align="center" style="width:90px;">繳庫日</td>
-                    <td align="center" style="width:220px;"><a id='lblMemos_st'>備註</a><br><a id='lblCert_st' style="display:none;"></a></td>
+                    <td align="center" style="width:220px;"><a id='lblMemos_st'>備註</a><br><a id='lblCert_st' style="display:none;"> </a></td>
                 </tr>
 
                 <tr style='background:#cad3ff;'>
@@ -674,7 +673,7 @@
 						<input type="text" id="txtClass.*"  style="width:93%; float:left;"/>
 					</td>
                     <td><input id="txtStyle.*" type="text" style="width:90%;text-align:center;"/></td>
-                    <td><input id="txtSurface.*" type="text" style="width:90%;"></td>
+                    <td><input id="txtSurface.*" style="width:90%;"/></td>
                     <td><input id="txtProduct.*" type="text" style="width:90%;"/></td>
 					<td>
 						<!--<input class="txt num" id="textSize1.*" type="text" style="float: left;width:55px;" disabled="disabled"/>
