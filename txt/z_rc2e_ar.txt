@@ -1,0 +1,40 @@
+﻿z_rc2e_ar01:--z_rc2e_ar01
+declare @t_bdate nvarchar(10) = case when '#non'=[2] then '' else [2] end 
+declare @t_edate nvarchar(10) = case when '#non'=[3] then char(255) else [3] end 
+
+declare @tmp table(
+	gno nvarchar(1),
+	store nvarchar(10),
+	uno nvarchar(max),
+	descr nvarchar(max),
+	product nvarchar(50),
+	surface nvarchar(5),
+	class nvarchar(2),
+	hand nvarchar(2),
+	indate nvarchar(10),
+	cust nvarchar(max),
+	onadder nvarchar(max),
+	ondate nvarchar(10),
+	dime float,
+	width float,
+	lengthb float,
+	weights float, ---淨重
+	weight float,
+	widths float,
+	inprice float ---rc2es要新增欄位
+)		
+insert @tmp (gno,store,uno,descr,product,surface,class,hand,indate,cust,dime,width,lengthb,weights,weight,widths)
+select '0',store,uno,descr,product,surface,class,hand,indate,cust,dime,width,lengthb,weights,weight,widths
+from rc2es
+where (indate between @t_bdate and @t_edate)
+
+if((select count(uno) from @tmp) > 0 )
+begin
+	insert @tmp(gno,weights)
+	select '1',sum(weights)
+	from @tmp
+end
+
+select * from @tmp
+
+;

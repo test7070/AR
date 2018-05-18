@@ -1,0 +1,130 @@
+﻿z_cud_ar01:--z_cud_ar01
+declare @r_accy nvarchar(20) = [1]
+declare @t_bmon nvarchar(20) = case when '#non'=[2] then '' else [2] end 
+declare @t_bcust nvarchar(20) = case when '#non'=[3] then char(255) else [3] end 
+
+declare @tmp0 table(
+	gno nvarchar(1),
+	noa nvarchar(20),
+	mon nvarchar(7),
+	custno nvarchar(max),
+	cust nvarchar(max)
+)
+insert into @tmp0(gno,noa,mon,custno,cust)
+select '0',noa,@t_bmon,custno,cust 
+from view_cud where accy=@r_accy and custno=@t_bcust and datea like @t_bmon+'%' 
+group by noa,custno,cust
+
+declare @tmp1 table(
+	gno nvarchar(1),
+	noa nvarchar(max),
+	custno nvarchar(max),
+	noq nvarchar(20),
+	product nvarchar(20),
+	spec nvarchar(20),
+	dime float,
+	class nvarchar(20),
+	mechno nvarchar(20),
+	mech nvarchar(20),
+	lengthb float,
+	mount float,
+	weight float,
+	hmount float,
+	memo nvarchar(max)
+)
+insert into @tmp1
+select '1',a.noa,a.custno,b.noq,b.product,b.spec,b.dime,b.class,b.mechno,b.mech,b.lengthb,b.mount,b.weight,b.hmount,b.memo
+from @tmp0 a
+left join view_cuds b on a.noa = b.noa
+
+declare @tmp table(
+	gno nvarchar(1),
+	mon nvarchar(7),
+	cust nvarchar(max),
+
+	noq nvarchar(20),
+	product nvarchar(20),
+	spec nvarchar(20),
+	dime float,
+	class nvarchar(20),
+	mechno nvarchar(20),
+	mech nvarchar(20),
+	lengthb float,
+	mount float,
+	weight float,
+	hmount float,
+	memo nvarchar(max)
+)
+insert into @tmp(gno,mon,cust)
+select gno,mon,cust from @tmp0
+GROUP BY gno,mon,cust
+insert into @tmp(gno,noq,product,spec,dime,class,mechno,mech,lengthb,mount,weight,hmount,memo)
+select gno,noq,product,spec,dime,class,mechno,mech,lengthb,mount,weight,hmount,memo
+from @tmp1
+
+select * from @tmp;
+
+
+z_cud_ar02:--z_cud_ar02
+declare @r_accy nvarchar(20) = [1]
+declare @t_bmon nvarchar(20) = case when '#non'=[2] then '' else [2] end
+
+declare @tmp0 table(
+	gno nvarchar(1),
+	noa nvarchar(20),
+	mon nvarchar(7)
+)
+
+insert into @tmp0(gno,noa,mon)
+select '0',noa,@t_bmon
+from view_cud where accy=@r_accy and datea like @t_bmon+'%' 
+group by noa
+
+declare @tmp1 table(
+	gno nvarchar(1),
+	noa nvarchar(max),
+	noq nvarchar(20),
+	product nvarchar(20),
+	spec nvarchar(20),
+	dime float,
+	class nvarchar(20),
+	mechno nvarchar(20),
+	mech nvarchar(20),
+	lengthb float,
+	mount float,
+	weight float,
+	hmount float,
+	memo nvarchar(max)
+)
+insert into @tmp1
+select '1',a.noa,b.noq,b.product,b.spec,b.dime,b.class,b.mechno,b.mech,b.lengthb,b.mount,b.weight,b.hmount,b.memo
+from @tmp0 a
+left join view_cuds b on a.noa = b.noa
+
+declare @tmp table(
+	gno nvarchar(1),
+	mon nvarchar(7),
+
+	noq nvarchar(20),
+	product nvarchar(20),
+	spec nvarchar(20),
+	dime float,
+	class nvarchar(20),
+	mechno nvarchar(20),
+	mech nvarchar(20),
+	lengthb float,
+	mount float,
+	weight float,
+	hmount float,
+	memo nvarchar(max)
+)
+
+insert into @tmp(gno,mon)
+select gno,mon from @tmp0
+GROUP BY gno,mon
+
+insert into @tmp(gno,noq,product,spec,dime,class,mechno,mech,lengthb,mount,weight,hmount,memo)
+select gno,noq,product,spec,dime,class,mechno,mech,lengthb,mount,weight,hmount,memo
+from @tmp1
+
+select * from @tmp;
