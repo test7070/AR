@@ -73,7 +73,7 @@
 				q_cmbParse("cmbKind", q_getPara('sys.stktype'));
 				$('#cmbKind').change(function(){  //變動尺寸欄位
 					size_change();
-				});
+                });
 			}
 			function q_boxClose(s2){///   q_boxClose 2/4
 				var
