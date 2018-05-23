@@ -17,10 +17,10 @@
 			q_desc = 1;
 			q_tables = 's';
 			var q_name = "rc2e";
-			var q_readonly = ['txtNoa', 'txtWorker'];
-			var q_readonlys = ['txtKeydatea'];
+			var q_readonly = ['txtNoa', 'txtWorker','txtWeight','txtTotal'];
+			var q_readonlys = ['txtKeydatea','txtMoney','txtTax','txtTotal'];
 			var bbmNum = [['txtWeight', 15, 3, 1], ['txtTotal', 15, 0, 1]];
-			var bbsNum = [['textSize1', 10, 3, 1], ['textSize2', 10, 2, 1], ['textSize3', 10, 3, 1], ['textSize4', 10, 2, 1], ['txtMount', 10, 0, 1], ['txtWeight', 15, 3, 1], ['txtPrice', 10, 2, 1]];
+			var bbsNum = [['textSize1', 10, 3, 1], ['textSize2', 10, 2, 1], ['textSize3', 10, 3, 1], ['textSize4', 10, 2, 1], ['txtMount', 10, 0, 1], ['txtWeight', 15, 3, 1], ['txtPrice', 10, 2, 1], ['txtMoney', 10, 0, 1], ['txtTax', 10, 0, 1], ['txtTotal', 10, 0, 1]];
 			var bbmMask = [];
 			var bbsMask = [['txtStyle', 'A']];
 			var bbmKey = ['noa'];
@@ -52,17 +52,23 @@
 			}
 			function sum(){
 				var tot_Weight = 0;
-				var tot_Money = 0;
+				var tot_Total = 0;
 				var t_Weight, t_Mount, t_Price;
 				for (var j = 0; j < q_bbsCount; j++) {
 					t_Weight = dec($('#txtWeight_' + j).val());
 					t_Mount = dec($('#txtMount_' + j).val());
-					t_Price = dec($('#txtPrice_' + j).val());
+                    t_Price = dec($('#txtPrice_' + j).val());
+                    t_Money = round((q_mul(t_Weight, t_Price)), 0);
+                    t_Tax = round((q_mul(t_Money, 0.05)), 0);
+                    t_Total = t_Money+t_Tax;
 					tot_Weight += dec($('#txtWeight_' + j).val());
-					tot_Money += round((q_mul(q_mul(t_Weight, t_Mount), t_Price)), 0);
-				}
+                    tot_Total += t_Total;
+                    $('#txtMoney_' + j).val(t_Money);
+                    $('#txtTax_' + j).val(t_Tax);
+                    $('#txtTotal_' + j).val(t_Total);
+                }
 				$('#txtWeight').val(tot_Weight);
-				$('#txtTotal').val(tot_Money);
+				$('#txtTotal').val(tot_Total);
 			}
 			function mainPost(){
 				q_getFormat();
@@ -208,6 +214,7 @@
                             $('#textSize2_' + n).val('');
                             $('#textSize3_' + n).val('');
                             $('#textSize4_' + n).val('');
+                            
                             if ($('#cmbKind').val() == 'A1') {//鋼捲鋼板
                                 if (!(data.length == 2 || data.length == 3)) {
                                     alert(q_getPara('transize.error01'));
@@ -515,7 +522,7 @@
                 margin: -1px;
             }
             .dbbs {
-                width: 1800px;
+                width: 2400px;
             }
             .tbbs a {
                 font-size: medium;
@@ -655,11 +662,10 @@
                     <td align="center" style="width:80px;"><a>進價</a></td>
                     <td align="center" style="width:80px;"><a>金額</a></td>
                     <td align="center" style="width:80px;"><a>稅額</a></td>
-                    <td align="center" style="width:80px;"><a>總額</a></td>
+                    <td align="center" style="width:100px;"><a>總額</a></td>
                     <td align="center" style="width:40px;"><a>毛<hr>修邊</a></td>
                     <td align="center" style="width:100px;"><a>繳庫日</a></td>
                     <td align="center" style="width:100px;"><a>打單日</a></td>
-                    <td align="center" class="auto-style1"><a>已領</a></td>
                     <td align="center" style="width:220px;"><a id='lblMemo_st'> </a></td>
                 </tr>
 
@@ -710,13 +716,13 @@
 						<input id="txtWidth.*" type="text" style="float: left;width:50px;"/>
 						<div id="x2.*" style="float: left;display:block;width:20px;padding-top: 4px;">x</div>
 						<input id="txtLengthb.*" type="text" style="float: left;width:50px;"/>
-						<input id="txtSpec.*" type="text" style="float:left;width:190px;"/>
+						<input id="txtSpec.*" type="text" style="float:left;width:110px;"/>
                     </td>
                     <td><input id="txtWidths.*" type="text" style="width:90%;"/></td>
                     <td><input id="txtUnit.*" type="text" style="width:90%;"/></td>
                     <td><input id="txtMount.*" type="text" class="txt num" style="width:95%;"/></td>
-                    <td><input id="txtWeights.*" type="text" class="txt num" style="width:95%;"/></td>
                     <td><input id="txtWeight.*" type="text" class="txt num" style="width:95%;"/></td>
+                    <td><input id="txtWeights.*" type="text" class="txt num" style="width:95%;"/></td>
                     <td><input id="txtPrice.*" type="text" class="txt num" style="width:95%;"/></td>
                     <td><input id="txtMoney.*" type="text" class="txt num" style="width:95%;"/></td>
                     <td><input id="txtTax.*" type="text" class="txt num" style="width:95%;"/></td>
@@ -724,7 +730,6 @@
                     <td><input id="txtHand.*" type="text" style="width:90%;"/></td>
                     <td><input id="txtIndate.*"  type="text" class="txt c1"/></td>
                     <td><input id="txtKeydatea.*"  type="text" class="txt c1"/></td>
-                    <td><input id="chkEnds.*" type="checkbox"/></td>
                     <td><input id="txtMemo.*" type="text" style="width:95%;"/></td>
                 </tr>
             </table>

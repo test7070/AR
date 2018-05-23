@@ -18,7 +18,7 @@
         var q_name = "cud";
         var q_readonly = ['txtNoa','txtWorker','txtWorker2'];
         var q_readonlys = ['txtNoq','txtProduct'];
-        var bbmNum = [];  
+        var bbmNum = [];
         var bbsNum = [['txtWidth',10,3,1],['txtDime',10,3,1],['txtLengthb',10,3,1],
         			  ['txtHmount',10,3,1],['txtMount',10,3,1],
         			  ['txtWeight',10,3,1],['txtHweight',10,3,1]    			 
@@ -33,8 +33,6 @@
 		brwCount2= 6;
 		aPop = new Array(
 			['txtCustno', 'lblCustno', 'cust', 'noa,comp', 'txtCustno,txtCust', 'cust_b.aspx'],
-			//['txtProductno_', 'btnProductno_', 'ucaucc', 'noa,product', 'txtProductno_,txtProduct_', 'ucaucc_b.aspx'],
-			//['txtProductno2_', 'btnProductno2_', 'ucaucc', 'noa,product', 'txtProductno2_,txtProduct2_', 'ucaucc_b.aspx'],
 			['txtProductno_', 'btnProductno_', 'ucc', 'noa,product', 'txtProductno_,txtProduct_', 'ucc_b.aspx']
 		);
         $(document).ready(function () {
