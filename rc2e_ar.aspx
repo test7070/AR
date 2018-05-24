@@ -667,6 +667,7 @@
                     <td align="center" style="width:40px;"><a>毛<hr>修邊</a></td>
                     <td align="center" style="width:100px;"><a>繳庫日</a></td>
                     <td align="center" style="width:100px;"><a>打單日</a></td>
+                    <td align="center" style="width:30px;"><a>已繳</a></td>
                     <td align="center" style="width:220px;"><a id='lblMemo_st'> </a></td>
                 </tr>
 
@@ -731,6 +732,7 @@
                     <td><input id="txtHand.*" type="text" style="width:90%;"/></td>
                     <td><input id="txtIndate.*"  type="text" class="txt c1"/></td>
                     <td><input id="txtKeydatea.*"  type="text" class="txt c1"/></td>
+                    <td><input id="chkEnds.*"  type="checkbox" /></td>
                     <td><input id="txtMemo.*" type="text" style="width:95%;"/></td>
                 </tr>
             </table>

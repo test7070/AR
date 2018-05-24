@@ -34,16 +34,16 @@
 			brwNowPage = 0;
 			brwKey = 'noa';
 			aPop = new Array(['txtTggno', 'lblTgg', 'tgg', 'noa,comp,nick,paytype,tel,trantype,zip_fact,addr_fact', 'txtTggno,txtTgg,txtNick,txtPaytype,txtTel,cmbTrantype,txtPost,txtAddr', 'tgg_b.aspx']
-			, ['txtCno', 'lblAcomp', 'acomp', 'noa,acomp', 'txtCno,txtAcomp', 'acomp_b.aspx']
-			, ['txtProductno_', 'btnProduct_', 'ucc', 'noa,product', 'txtProductno_', 'ucc_b.aspx']
-			, ['txtCardealno', 'lblCardeal', 'cardeal', 'noa,comp', 'txtCardealno,txtCardeal', 'cardeal_b.aspx']
-			, ['txtSalesno', 'lblSales', 'sss', 'noa,namea', 'txtSalesno,txtSales', 'sss_b.aspx']
-			, ['txtAddr', '', 'view_road', 'memo,zipcode', '0txtAddr,txtPost', 'road_b.aspx']
-			, ['txtAddr2', '', 'view_road', 'memo,zipcode', '0txtAddr2,txtPost2', 'road_b.aspx']
-			, ['txtSpec_', '', 'spec', 'noa,product', '0txtSpec_,txtSpec_', 'spec_b.aspx', '95%', '95%']
-			, ['txtStoreno_', 'btnStoreno_', 'store', 'noa,store', 'txtStoreno_,txtStore_', 'store_b.aspx']
-			, ['txtStoreno', 'lblStoreno', 'store', 'noa,store', 'txtStoreno,txtStore', 'store_b.aspx']
-			, ['txtStyle_', 'btnStyle_', 'style', 'noa,product', 'txtStyle_', 'style_b.aspx']);
+			,['txtCno', 'lblAcomp', 'acomp', 'noa,acomp', 'txtCno,txtAcomp', 'acomp_b.aspx']
+			,['txtProductno_', 'btnProduct_', 'ucc', 'noa,product', 'txtProductno_', 'ucc_b.aspx']
+			,['txtCardealno', 'lblCardeal', 'cardeal', 'noa,comp', 'txtCardealno,txtCardeal', 'cardeal_b.aspx']
+			,['txtSalesno', 'lblSales', 'sss', 'noa,namea', 'txtSalesno,txtSales', 'sss_b.aspx']
+			,['txtAddr', '', 'view_road', 'memo,zipcode', '0txtAddr,txtPost', 'road_b.aspx']
+			,['txtAddr2', '', 'view_road', 'memo,zipcode', '0txtAddr2,txtPost2', 'road_b.aspx']
+			,['txtSpec_', '', 'spec', 'noa,product', '0txtSpec_,txtSpec_', 'spec_b.aspx', '95%', '95%']
+			,['txtStoreno_', 'btnStoreno_', 'store', 'noa,store', 'txtStoreno_,txtStore_', 'store_b.aspx']
+			,['txtStoreno', 'lblStoreno', 'store', 'noa,store', 'txtStoreno,txtStore', 'store_b.aspx']
+			,['txtStyle_', 'btnStyle_', 'style', 'noa,product', 'txtStyle_', 'style_b.aspx']);
 			
 			brwCount2 = 14;
 			var isinvosystem = false,t_spec='',t_coin='';
@@ -144,7 +144,7 @@
 						}
 						t_moneys = round(t_moneys, 0);
 								
-						$('#txtMoney_' + j).val(FormatNumber(t_moneys));
+						$('#txtTotal_' + j).val(FormatNumber(t_moneys));
 					}
 					t_weight = q_add(t_weight, t_weights);
 					t_mount = q_add(t_mount, t_mounts);
@@ -250,7 +250,7 @@
 				$('#txtMon').click(function(){
 					if ($('#txtMon').attr("readonly")=="readonly" && (q_cur==1 || q_cur==2))
 						q_msg($('#txtMon'), "月份要另外設定，請在"+q_getMsg('lblMemo')+"的第一個字打'*'字");
-				});
+                });
 
                 $('#btnRc2e').click(function (e) {           //進貨發貨匯入
                 	var t_noa = $.trim($('#txtNoa').val());
@@ -262,6 +262,12 @@
                     q_gt('rc2e_import', "where=^^['" + t_noa + "','" + t_tggno + "')^^", 0, 0, 0, "rc2e_import");
                 });
 				
+                /*$('#btnRc2e').click(function() {
+					if (!(q_cur == 1 || q_cur == 2))
+						return;
+					btnRc2e();
+				});*/
+
 				$('#lblAccno').click(function(){
 					if($('#txtDatea').val().substring(0, 1)==1){
 						q_pop('txtAccno', "accc.aspx?" + r_userno + ";" + r_name + ";" + q_time + ";accc3='" + $('#txtAccno').val() + "';" + $('#txtDatea').val().substring(0, 3) + '_' + r_cno, 'accc', 'accc3', 'accc2', "92%", "95%", q_getMsg('btnAccc'), true);
@@ -344,6 +350,33 @@
 					$('#txtRc2atax').show();
 				}
 			}
+
+            /*function btnRc2e() {
+				var t_tgg = trim($('#txtTggno').val());
+				var t_kind = $('#cmbKind').val();
+				if (t_tgg.length > 0) {
+					t_where += (t_custno.length > 0 ? q_sqlPara2("tggno", t_tggno) : "");
+					//// sql AND 語法，請用 &&
+					t_where = t_where;
+				} else {
+					alert(q_getMsg('msgCustEmp'));
+					return;
+				}
+				var distinctArray = new Array;
+				var inStr = '';
+				for (var i = 0; i < abbsNow.length; i++) {
+					distinctArray.push(abbsNow[i].ordeno + abbsNow[i].no2);
+				}
+				distinctArray = distinct(distinctArray);
+				for (var i = 0; i < distinctArray.length; i++) {
+					if (trim(distinctArray[i]) != '')
+						inStr += "'" + distinctArray[i] + "',";
+				}
+				inStr = inStr.substring(0, inStr.length - 1);
+				t_where += " and (select enda from view_rc2e"+r_accy+" where view_rc2e"+r_accy+".noa=view_rc2es" + r_accy + ".noa)='0' ";
+				t_where += " and (((enda!=1) and (notv > 0))" + (trim(inStr).length > 0 ? " or noa+no2 in(" + inStr + ") " : '') + ")";
+				q_box("rc2e_ar_b.aspx?" + r_userno + ";" + r_name + ";" + q_time + ";" + t_where, 'ordes', "95%", "650px", q_getMsg('popRc2e'));
+			}/// q_box() 開 視窗*/
 
 			function q_boxClose(s2) {///   q_boxClose 2/4 /// 查詢視窗、廠商視窗、訂單視窗  關閉時執行
 				var
@@ -1139,9 +1172,9 @@
 				q_gt('deli', "where=^^ rc2no='"+$('#txtNoa').val()+"' ^^", 0, 0, 0, 'deli_modi', r_accy);
 			}
 
-			function btnPrint() {
+			function btnPrint() { //列印
 				t_where = "noa=" + $('#txtNoa').val();
-				switch(q_getPara('sys.project').toUpperCase()){
+				/*switch(q_getPara('sys.project').toUpperCase()){
 					case 'RK':
 						q_box("z_rc2_rkp.aspx?" + r_userno + ";" + r_name + ";" + q_time + ";" + JSON.stringify({noa:trim($('#txtNoa').val())}) + ";" + r_accy + "_" + r_cno, 'rc2_rk', "95%", "95%", m_print);
 						break;
@@ -1154,7 +1187,8 @@
 					default:
 						q_box("z_rc2stp.aspx?" + r_userno + ";" + r_name + ";" + q_time + ";" + t_where, '', "95%", "95%", q_getMsg('popPrint'));
 						break;
-				}
+				}*/
+                q_box("z_rc2s_ar.aspx?" + r_userno + ";" + r_name + ";" + q_time + ";" + t_where, '', "95%", "95%", q_getMsg('popPrint'));
 			}
 
 			function wrServer(key_value) {
@@ -1798,7 +1832,7 @@
 					<td><input id="txtMount.*" type="text" class="txt num" style="width:95%;"/></td>
 					<td><input id="txtUnit.*" type="text" style="width:95%;"/></td>
 					<td><input id="txtPrice.*" type="text"  class="txt num" style="width:95%;"/></td>
-                    <td><input id="txtMoney_.*" type="text"  class="txt num" style="width:95%;"/></td>
+                    <td><input id="txtTotal.*" type="text"  class="txt num" style="width:95%;"/></td>
 					<td><input id="txtMemo.*" type="text" style="width:95%;"/></td>
 				</tr>
 			</table>
