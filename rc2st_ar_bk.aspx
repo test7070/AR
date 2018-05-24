@@ -231,13 +231,10 @@
 						bbsNum = [['txtPrice', 15, 3, 1],['txtPriceus', 15, 4, 1], ['txtHard', 10, 2, 1], ['txtTotal', 12, 2, 1], ['txtTotalus', 12, 2, 1], ['txtMount', 10, 2, 1], ['txtWeight', 10, 2, 1], ['txtGweight', 10, 2, 1], ['textSize1', 10, 3, 1], ['textSize2', 10, 2, 1], ['textSize3', 10, 3, 1], ['textSize4', 10, 2, 1]];
 						break;
 				}
-				if (q_getPara('sys.project').toUpperCase()=='FP'){
-					$('#lblOrdc').hide();
-					$('#txtOrdcno').hide();
-				} else{
-					$('#lblOrdc').show();
-					$('#txtOrdcno').show();
-				}
+				
+				$('#lblOrdc').show();
+				$('#txtOrdcno').show();
+				
 				q_mask(bbmMask);
 				q_cmbParse("cmbTypea", q_getPara('rc2.typea'));
 				q_cmbParse("combPaytype", q_getPara('rc2.paytype'));
@@ -251,11 +248,9 @@
 						q_cmbParse("cmbKind", q_getPara('sys.stktype'));
 						break;
 				}
-				if(t_spec.length>0)
-					if (q_getPara('sys.project').toUpperCase()=='FP'){
-					} else{
-						q_cmbParse("combSpec", t_spec,'s');
-					}
+                if (t_spec.length > 0)
+                    q_cmbParse("combSpec", t_spec, 's');
+				
 				if(t_coin.length>0)
 					q_cmbParse("cmbCoin", t_coin);
 				
@@ -1212,19 +1207,6 @@
 					case 'PK':
 						$('.pk').show();
 						break;
-					case 'RK':
-						$('.rk').show();
-						$('.RK_hide').hide();
-						$('#lblWeights_st2').html('重量/M<BR>實重');
-						$('#lblSource').text('製造商');
-						break;
-					case 'FP':
-						$('.Ordctd').hide();
-						$('.Ordctds').hide();
-						break;
-					case 'BD':
-						$('.bd').show();
-						break;
 					default:
 						break;
 				}
@@ -1299,18 +1281,6 @@
 		        	$("#btnRc2e").attr("disabled","disabled");
 		        }
 				switch(q_getPara('sys.project').toUpperCase()){
-					case 'PK':
-						$('.pk').show();
-						break;
-					case 'RK':
-						$('.rk').show();
-						$('.sprice').show();
-						$('.RK_hide').hide();
-						break;
-					case 'FP':
-						$('.Ordctd').hide();
-						$('.Ordctds').hide();
-						break;
 					case 'BD':
 						$('.bd').show();
 						break;
@@ -1357,18 +1327,6 @@
 		        	$("#btnRc2e").attr("disabled","disabled");
 		        }
 				switch(q_getPara('sys.project').toUpperCase()){
-					case 'PK':
-						$('.pk').show();
-						break;
-					case 'RK':
-						$('.rk').show();
-						$('.sprice').show();
-						$('.RK_hide').hide();
-						break;
-					case 'FP':
-						$('.Ordctd').hide();
-						$('.Ordctds').hide();
-						break;
 					case 'BD':
 						$('.bd').show();
 						break;
@@ -1484,8 +1442,7 @@
 				var t_kind = (($('#cmbKind').val()) ? $('#cmbKind').val() : '');
 				t_kind = t_kind.substr(0, 1);
 				//隆昊固定顯示厚、寬、長
-				t_kind = q_getPara('sys.project').toUpperCase()=='BD'?'A':t_kind;
-				
+				//t_kind = q_getPara('sys.project').toUpperCase()=='BD'?'A':t_kind;
 				if (t_kind == 'A') {
 					$('#lblSize_help').text(q_getPara('sys.lblSizea'));
 					$('#Size').css('width', '220px');

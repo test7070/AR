@@ -586,6 +586,7 @@
             <div class="dbbm">
                 <table class="tbbm" id="tbbm">
                     <tr style="height:1px;"><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td class="tdZ"> </td></tr>
+                    <tr><td colspan="3">唐榮進貨發貨作業</td></tr>
                     <tr>
                         <td><span> </span><a id="lblDatea" class="lbl"> </a></td>
                         <td><input id="txtDatea"  type="text" class="txt c1"/></td>

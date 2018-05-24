@@ -21,8 +21,8 @@
 
 			q_tables = 's';
 			var q_name = "rc2";
-			var q_readonly = ['txtRc2atax', 'txtTgg', 'txtAccno', 'txtAcomp', 'txtSales', 'txtNoa', 'txtWorker', 'txtWorker2', 'txtMoney', 'txtWeight', 'txtTotal', 'txtTax', 'txtTotalus'];
-			var q_readonlys = ['txtMoney','txtSprice'];
+			var q_readonly = ['txtRc2atax', 'txtTgg', 'txtAccno', 'txtAcomp', 'txtSales', 'txtNoa', 'txtWorker', 'txtWorker2', 'txtMoney', 'txtWeight', 'txtTotal', 'txtTax'];
+			var q_readonlys = ['txtOrdeno','txtNo2'];
 			var bbmNum = [];
 			var bbsNum;
 			var bbmMask = [];
@@ -45,7 +45,7 @@
 			, ['txtStoreno', 'lblStoreno', 'store', 'noa,store', 'txtStoreno,txtStore', 'store_b.aspx']
 			, ['txtStyle_', 'btnStyle_', 'style', 'noa,product', 'txtStyle_', 'style_b.aspx']);
 			
-			brwCount2 = 12;
+			brwCount2 = 14;
 			var isinvosystem = false,t_spec='',t_coin='';
 			//購買發票系統
 			$(document).ready(function() {
@@ -78,16 +78,15 @@
 				$('#txtTax').css('background-color', 'rgb(237,237,238)').css('color', 'green');
 				$('#txtTotal').css('background-color', 'rgb(237,237,238)').css('color', 'green');
 
-				var t_mount = 0, t_price = 0, t_money = 0, t_moneyus = 0, t_weight = 0, t_total = 0, t_tax = 0;
-				var t_mounts = 0, t_prices = 0, t_moneys = 0, t_moneyuss = 0, t_weights = 0;
+				var t_mount = 0, t_price = 0, t_money = 0, t_weight = 0, t_total = 0, t_tax = 0;
+				var t_mounts = 0, t_prices = 0, t_moneys = 0, t_weights = 0;
 				var t_unit = '';
 				var t_theory = 0;
 				var t_float = q_float('txtFloata');
 				var t_kind = (($('#cmbKind').val()) ? $('#cmbKind').val() : '');
 				t_kind = t_kind.substr(0, 1);
 				for (var j = 0; j < q_bbsCount; j++) {
-				    t_moneys = 0; 
-				    t_moneyuss = 0;
+				    t_moneys = 0;
 				    //---------------------------------------------------------
 					if (t_kind == 'A') {
 						q_tr('txtDime_' + j, q_float('textSize1_' + j));
@@ -130,36 +129,26 @@
 					}
 					if($('#chkAprice_'+j).prop('checked')){
 						t_moneys = q_float('txtTotal_' + j);
-						t_moneyuss = q_float('txtTotalus_' + j);
 					}
 					else{
 						if (t_unit.length == 0 || t_unit == 'KG' || t_unit == 'M2' || t_unit == 'M²' || t_unit == 'M' || t_unit == '批' || t_unit == '公斤' || t_unit == '噸' || t_unit == '頓') {
 							//批   裕承隆  是拿來當運費的單位   不能用
 							if(q_getPara('sys.project').toUpperCase()=="BDV" && t_unit == '批' ){
 								t_moneys = q_mul(q_mul(t_prices, t_mounts),t_float==0?1:t_float);
-								if(t_float!=0)
-									t_moneyuss = q_mul(t_prices, t_mounts);
 							}
 							else{
 								t_moneys = q_mul(q_mul(t_prices, t_weights),t_float==0?1:t_float);
-								if(t_float!=0)
-									t_moneyuss = q_mul(t_prices, t_weights);
 							}
 						} else {
 							t_moneys = q_mul(q_mul(t_prices, t_mounts),t_float==0?1:t_float);
-							if(t_float!=0)
-								t_moneyuss = q_mul(t_prices, t_mounts);
 						}
 						t_moneys = round(t_moneys, 0);
-						t_moneyuss = round(t_moneyuss, 2);//外幣小數位個數,要對應到DELI
 								
-						$('#txtTotal_' + j).val(FormatNumber(t_moneys));
-						$('#txtTotalus_' + j).val(FormatNumber(t_moneyuss));
+						$('#txtMoney_' + j).val(FormatNumber(t_moneys));
 					}
 					t_weight = q_add(t_weight, t_weights);
 					t_mount = q_add(t_mount, t_mounts);
 					t_money = q_add(t_money, t_moneys);
-					t_moneyus = q_add(t_moneyus, t_moneyuss);
 				}
 				
 				t_total = t_money;
@@ -211,7 +200,6 @@
 				$('#txtMoney').val(FormatNumber(t_money));
 				$('#txtTax').val(FormatNumber(t_tax));
 				$('#txtTotal').val(FormatNumber(t_total));
-				$('#txtTotalus').val(FormatNumber(t_moneyus));
 			}
 
 			function mainPost() {// 載入資料完，未 refresh 前
@@ -221,22 +209,15 @@
 				switch(q_getPara('sys.project').toUpperCase()){
 					case 'RK':
 						//聯琦 採購小數位沒有限制,進貨也一樣
-						bbsNum = [['txtHard', 10, 2, 1], ['txtTotal', 12, 2, 1], ['txtTotalus', 12, 2, 1], ['txtMount', 10, 2, 1], ['txtWeight', 10, 2, 1], ['txtGweight', 10, 2, 1], ['txtTheory', 10, 3, 1], ['textSize1', 10, 3, 1], ['textSize2', 10, 2, 1], ['textSize3', 10, 3, 1], ['textSize4', 10, 2, 1]];
+						bbsNum = [['txtHard', 10, 2, 1], ['txtTotal', 12, 2, 1], ['txtMount', 10, 2, 1], ['txtWeight', 10, 2, 1], ['txtGweight', 10, 2, 1], ['txtTheory', 10, 3, 1], ['textSize1', 10, 3, 1], ['textSize2', 10, 2, 1], ['textSize3', 10, 3, 1], ['textSize4', 10, 2, 1]];
 						
 						$('#lblAccno').hide();
 						$('#txtAccno').hide();
 						$('#lblLcno').text('報關號碼');
 						break;
 					default:
-						bbsNum = [['txtPrice', 15, 3, 1],['txtPriceus', 15, 4, 1], ['txtHard', 10, 2, 1], ['txtTotal', 12, 2, 1], ['txtTotalus', 12, 2, 1], ['txtMount', 10, 2, 1], ['txtWeight', 10, 2, 1], ['txtGweight', 10, 2, 1], ['textSize1', 10, 3, 1], ['textSize2', 10, 2, 1], ['textSize3', 10, 3, 1], ['textSize4', 10, 2, 1]];
+						bbsNum = [['txtPrice', 15, 3, 1],['txtPriceus', 15, 4, 1], ['txtHard', 10, 2, 1], ['txtTotal', 12, 2, 1], ['txtMount', 10, 2, 1], ['txtWeight', 10, 2, 1], ['txtGweight', 10, 2, 1], ['textSize1', 10, 3, 1], ['textSize2', 10, 2, 1], ['textSize3', 10, 3, 1], ['textSize4', 10, 2, 1]];
 						break;
-				}
-				if (q_getPara('sys.project').toUpperCase()=='FP'){
-					$('#lblOrdc').hide();
-					$('#txtOrdcno').hide();
-				} else{
-					$('#lblOrdc').show();
-					$('#txtOrdcno').show();
 				}
 				q_mask(bbmMask);
 				q_cmbParse("cmbTypea", q_getPara('rc2.typea'));
@@ -251,11 +232,9 @@
 						q_cmbParse("cmbKind", q_getPara('sys.stktype'));
 						break;
 				}
-				if(t_spec.length>0)
-					if (q_getPara('sys.project').toUpperCase()=='FP'){
-					} else{
-						q_cmbParse("combSpec", t_spec,'s');
-					}
+                if (t_spec.length > 0)
+                    q_cmbParse("combSpec", t_spec, 's');
+				
 				if(t_coin.length>0)
 					q_cmbParse("cmbCoin", t_coin);
 				
@@ -289,33 +268,8 @@
 					}else{
 						q_pop('txtAccno', "accc.aspx?" + r_userno + ";" + r_name + ";" + q_time + ";accc3='" + $('#txtAccno').val() + "';" + ($('#txtDatea').val().substring(0, 4)-1911) + '_' + r_cno, 'accc', 'accc3', 'accc2', "92%", "95%", q_getMsg('btnAccc'), true);
 					}
-				});
-				
-				
-				$('#lblOrdc').click(function() {
-					if (!(q_cur == 1 || q_cur == 2))
-						return;
-					switch(q_getPara('sys.project').toUpperCase()){
-						case 'RK':
-							var t_tggno = $.trim($('#txtTggno').val());
-	                		var t_kind = $('#cmbKind').val();
-	                		var t_noa = $('#txtNoa').val();
-	                		var t_where ='';
-	                		q_box("ordc_import_rk_b.aspx?" + r_userno + ";" + r_name + ";" + q_time + ";" + t_where+";"+";"+JSON.stringify({tggno:t_tggno,kind:t_kind,noa:t_noa,page:'rc2st'}), "ordc_import", "95%", "95%", '');
-							break;
-						case 'BD':
-							var t_tggno = $.trim($('#txtTggno').val());
-	                		var t_kind = ''; //$('#cmbKind').val();
-	                		var t_noa = $('#txtNoa').val();
-	                		var t_where ='';
-	                		q_box("ordc_import_b.aspx?" + r_userno + ";" + r_name + ";" + q_time + ";" + t_where+";"+";"+JSON.stringify({tggno:t_tggno,kind:t_kind,noa:t_noa,page:'rc2st'}), "ordc_import", "95%", "95%", '');
-							break;
-						default:
-							lblOrdc();
-							break;
-					}
-				});
-				
+                });
+
 				$('#cmbKind').change(function() {
 					size_change();
 				});
@@ -400,7 +354,6 @@
                         	as = b_ret;
                         	for(var i=0;i<as.length;i++){
                         		if(as[i].noa.length>0){
-                        			$('#txtOrdcno').val(as[i].noa);
                         			$('#txtCno').val(as[i].cno);
                         			$('#txtAcomp').val(as[i].acomp);
                         			$('#txtTggno').val(as[i].tggno);
@@ -511,7 +464,8 @@
 							if(q_getPara('sys.steel')=='1'){
 								as[i].tablea='rc2e';
 							}
-						}
+                        }
+                        //發貨匯入繳庫
                         q_gridAddRow(bbsHtm, 'tbbs', 'txtStoreno,txtStore,txtOrdeno,txtNo2,txtUno,txtProductno,txtProduct,txtStyle,txtSpec,txtWidth,txtDime,txtLengthb,txtWeight,txtGweight,txtClass,txtWidth2,txtSize,txtMount,txtUnit,txtPrice,txtMemo', as.length, as, 'Storeno,Store,Ordeno,No2,Uno,Productno,Product,Style,Spec,Width,Dime,Lengthb,Weight,Gweight,Class,Width2,Size,Mount,Unit,Price,Memo', '', '');
                 		break;
 					case 'isinvosystem':
@@ -720,23 +674,6 @@
 									}
 								}
 							}
-							/*  deli.txt  deli_rk   裡決定
-							 if(t_cost!=0){
-								var t_unit = $.trim($('#txtUnit_' + i).val()).toUpperCase();
-								var t_sprice=0;
-								if (t_unit.length == 0 || t_unit == 'KG' || t_unit == 'M2' || t_unit == 'M²' || t_unit == 'M' || t_unit == '批' || t_unit == '公斤' || t_unit == '噸' || t_unit == '頓') {
-									t_sprice=q_div(q_add(q_float('txtTotal_'+i),t_cost),q_float('txtWeight_'+i));
-								}else{
-									t_sprice=q_div(q_add(q_float('txtTotal_'+i),t_cost),q_float('txtMount_'+i));
-								}
-								if(t_sprice==Infinity){
-									$('#txtSprice_'+i).val($('#txtPrice_'+i).val());
-								}else{
-									$('#txtSprice_'+i).val(round(t_sprice,3));
-								}
-							}else{
-								$('#txtSprice_'+i).val($('#txtPrice_'+i).val());
-							}*/
 						}
 						
 						var t_lcno=$('#txtLcno').val();
@@ -764,7 +701,6 @@
 							$('#txtAddr2').val(as[0].addr2);
 						}
 						break;
-					
 					case 'cust' :
 						var as = _q_appendData("cust", "", true);
 						if (as[0] != undefined) {
@@ -914,19 +850,12 @@
 						$('#txtSpec_'+i).val($('#combSpec_'+i).val());						
 					}
 				}
-				//alert($('#txtSpec_0').val()+'____'+$('#cmbSpec_0').val());
-				$('#txtOrdcno').val(GetOrdcnoList());
 				//日期檢查
 				if ($('#txtDatea').val().length == 0 || !q_cd($('#txtDatea').val())) {
 					alert(q_getMsg('lblDatea') + '錯誤。');
 					Unlock(1);
 					return;
 				}
-				/*if ($('#txtDatea').val().substring(0, 3) != r_accy) {
-					alert('年度異常錯誤，請切換到【' + $('#txtDatea').val().substring(0, 3) + '】年度再作業。');
-					Unlock(1);
-					return;
-				}*/
 				
 				//判斷起算日,寫入帳款月份
 				//104/09/30 如果備註沒有*字就重算帳款月份
@@ -939,17 +868,10 @@
 				}
 				check_startdate=false;
 				
-				/*if ($('#txtMon').val().length > 0 && !q_cd($('#txtMon').val() + '/01')) {
-					alert(q_getMsg('lblMon') + '錯誤。');
-					Unlock(1);
-					return;
-				}*/
-				
 				if ($.trim($('#txtStoreno').val()).length > 0) {
                     for (var i = 0; i < q_bbsCount; i++) {
                         $('#txtStoreno_' + i).val($.trim($('#txtStoreno').val()));
                         $('#txtStore_' + i).val($.trim($('#txtStore').val()));
-
                     }
                 }
 				//檢查批號
@@ -1064,18 +986,6 @@
 					productno : t_Productno,
 					round : 3
 				};
-				/*t_theory = theory_st(theory_setting);
-				t_theory = (dec(t_theory) == 0 ? $('#txtWeight_' + b_seq).val() : t_theory);
-				return t_theory
-				if ($('#cmbKind').val().substr(1, 1) == '4') {//鋼胚
-					q_tr('txtTheory_' + b_seq, round(t_Mount * theory_bi(t_spec, $('#txtSpec_' + b_seq).val(), t_Dime, t_Width, t_Lengthb), 0));
-				} else {
-					q_tr('txtTheory_' + b_seq, theory_st(theory_setting));
-				}
-				var t_Product = $('#txtProduct_' + b_seq).val();
-				if (t_Product.indexOf('管') > -1 && dec($('#txtWeight_' + b_seq).val()) == 0) {
-					$('#txtWeight_' + b_seq).val($('#txtTheory_' + b_seq).val());
-				};*/
 			}
 
 			var btnCert_Seq = -1;
@@ -1115,9 +1025,6 @@
 						});
 						
 						$('#txtTotal_' + j).change(function() {
-							sum();
-						});
-						$('#txtTotalus_' + j).change(function() {
 							sum();
 						});
 						$('#txtStoreno_' + j).bind('contextmenu', function(e) {
@@ -1212,19 +1119,6 @@
 					case 'PK':
 						$('.pk').show();
 						break;
-					case 'RK':
-						$('.rk').show();
-						$('.RK_hide').hide();
-						$('#lblWeights_st2').html('重量/M<BR>實重');
-						$('#lblSource').text('製造商');
-						break;
-					case 'FP':
-						$('.Ordctd').hide();
-						$('.Ordctds').hide();
-						break;
-					case 'BD':
-						$('.bd').show();
-						break;
 					default:
 						break;
 				}
@@ -1299,18 +1193,6 @@
 		        	$("#btnRc2e").attr("disabled","disabled");
 		        }
 				switch(q_getPara('sys.project').toUpperCase()){
-					case 'PK':
-						$('.pk').show();
-						break;
-					case 'RK':
-						$('.rk').show();
-						$('.sprice').show();
-						$('.RK_hide').hide();
-						break;
-					case 'FP':
-						$('.Ordctd').hide();
-						$('.Ordctds').hide();
-						break;
 					case 'BD':
 						$('.bd').show();
 						break;
@@ -1357,18 +1239,6 @@
 		        	$("#btnRc2e").attr("disabled","disabled");
 		        }
 				switch(q_getPara('sys.project').toUpperCase()){
-					case 'PK':
-						$('.pk').show();
-						break;
-					case 'RK':
-						$('.rk').show();
-						$('.sprice').show();
-						$('.RK_hide').hide();
-						break;
-					case 'FP':
-						$('.Ordctd').hide();
-						$('.Ordctds').hide();
-						break;
 					case 'BD':
 						$('.bd').show();
 						break;
@@ -1396,14 +1266,11 @@
 					$('#txtTotal_'+i).attr('readonly','readonly');
 					if($('#chkAprice_'+i).prop('checked')){
 						$('#txtTotal_'+i).css('color','black').css('background-color','white');
-						$('#txtTotalus_'+i).css('color','black').css('background-color','white');
 						if(q_cur==1 || q_cur==2){
 							$('#txtTotal_'+i).removeAttr('readonly');
-							$('#txtTotalus_'+i).removeAttr('readonly');
 						}
 					}else{
 						$('#txtTotal_'+i).css('color','green').css('background-color','rgb(237,237,237)');
-						$('#txtTotalus_'+i).css('color','green').css('background-color','rgb(237,237,237)');
 					}
 				}
 			}
@@ -1484,8 +1351,7 @@
 				var t_kind = (($('#cmbKind').val()) ? $('#cmbKind').val() : '');
 				t_kind = t_kind.substr(0, 1);
 				//隆昊固定顯示厚、寬、長
-				t_kind = q_getPara('sys.project').toUpperCase()=='BD'?'A':t_kind;
-				
+				//t_kind = q_getPara('sys.project').toUpperCase()=='BD'?'A':t_kind;
 				if (t_kind == 'A') {
 					$('#lblSize_help').text(q_getPara('sys.lblSizea'));
 					$('#Size').css('width', '220px');
@@ -1719,18 +1585,9 @@
 			</div>
 			<div class="dbbm">
 				<table class="tbbm"  id="tbbm">
-					<tr style="height:0px;">
-						<td> </td>
-						<td> </td>
-						<td> </td>
-						<td> </td>
-						<td> </td>
-						<td> </td>
-						<td> </td>
-						<td> </td>
-						<td class="tdZ"> </td>
-					</tr>
-					<tr>
+					<tr style="height:0px;"><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td class="tdZ"> </td></tr>
+					<tr><td colspan="3">繳庫作業</td></tr>
+                    <tr>
 						<td><span> </span><a id='lblType' class="lbl"> </a></td>
 						<td><select id="cmbTypea" class="txt c1"> </select></td>
 						<td><span> </span><a id='lblKind' class="lbl"> </a></td>
@@ -1754,15 +1611,14 @@
 							<input id="txtCno" type="text" style="float:left;width:25%;"/>
 							<input id="txtAcomp" type="text" style="float:left;width:75%;"/>
 						</td>
-						<td><span> </span><a id='lblOrdc' class="lbl btn"> </a></td>
-						<td colspan="2"><input id="txtOrdcno" type="text" class="txt c1" /></td>
+						<td> </td><td> </td><td> </td>
 					</tr>
 					<tr>
 						<td ><span> </span><a id="lblTgg" class="lbl btn"> </a></td>
 						<td colspan="4">
 							<input id="txtTggno" type="text" style="float:left;width:25%;"/>
-							<input id="txtTgg"  type="text" style="float:left;width:75%;"/>
-							<input id="txtNick"  type="text" style="display:none;"/>
+							<input id="txtTgg" type="text" style="float:left;width:75%;"/>
+							<input id="txtNick" type="text" style="display:none;"/>
 						</td>
 						<td><span> </span><a id="lblSales" class="lbl btn"> </a></td>
 						<td colspan="2">
@@ -1810,8 +1666,8 @@
 						<td colspan="2"><input id="txtCarno" type="text" class="txt c1" /></td>
 					</tr>
 					<tr>
-						<td><span> </span><a id='lblTotalus' class="lbl"> </a></td>
-						<td><input id="txtTotalus" type="text" class="txt num c1" /></td>
+						<td></td>
+						<td></td>
 						<td><span> </span><a id='lblFloata' class="lbl"> </a></td>
 						<td><input id="txtFloata" type="text" class="txt num c1" /></td>
 						<td>
@@ -1882,8 +1738,8 @@
                     <td align="center" style="width:40px;"><a>毛<hr>修邊</a></td>
 					<td align="center" style="width:80px;"><a id='lblMount_st'> </a></td>
 					<td align="center" style="width:50px;"><a>單位</a></td>
-
 					<td align="center" style="width:80px;">單價</td>
+                    <td align="center" style="width:80px;">金額</td>
 					<td align="center" style="width:300px;"><a id='lblMemos_st'> </a><br><a id='lblCert_st' style="display:none;"> </a></td>
 				</tr>
 				
@@ -1941,8 +1797,8 @@
 					<td class="RK_hide"><input id="txtSize.*" type="text" style="width:95%;"/></td>
 					<td><input id="txtMount.*" type="text" class="txt num" style="width:95%;"/></td>
 					<td><input id="txtUnit.*" type="text" style="width:95%;"/></td>
-
 					<td><input id="txtPrice.*" type="text"  class="txt num" style="width:95%;"/></td>
+                    <td><input id="txtMoney_.*" type="text"  class="txt num" style="width:95%;"/></td>
 					<td><input id="txtMemo.*" type="text" style="width:95%;"/></td>
 				</tr>
 			</table>
