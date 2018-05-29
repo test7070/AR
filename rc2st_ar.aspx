@@ -253,13 +253,17 @@
                 });
 
                 $('#btnRc2e').click(function (e) {           //進貨發貨匯入
-                	var t_noa = $.trim($('#txtNoa').val());
-                	var t_tggno = $.trim($('#txtTggno').val());
+                    var t_noa = $.trim($('#txtNoa').val());
+                    var t_tggno = $.trim($('#txtTggno').val());
+                    var t_productno = ''
+                    var t_spec = ''
+                    var t_dime = ''
+                    var t_typen = '1';
                 	if(t_tggno.length==0){
                 		alert("請先輸入"+q_getMsg('lblTgg')+" !!");
                 		return;
                 	}
-                    q_gt('rc2e_import', "where=^^['" + t_noa + "','" + t_tggno + "')^^", 0, 0, 0, "rc2e_import");
+                    q_gt('rc2e_import', "where=^^['" + t_noa + "','" + t_tggno + "','" + t_productno + "','" + t_spec + "','" + t_dime + "','" + t_typen + "')^^", 0, 0, 0, "rc2e_import");
                 });
 				
                 /*$('#btnRc2e').click(function() {

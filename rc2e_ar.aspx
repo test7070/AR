@@ -95,7 +95,18 @@
 			var StyleList = '';
 			var t_uccArray = new Array;
 			function q_gtPost(t_name) {
-				switch (t_name) {
+                switch (t_name) {
+                    case 'rc2e_import':
+                        as = _q_appendData(t_name, "", true);
+                        for (var i = 0; i < as.length; i++) {
+							if(q_getPara('sys.steel')=='1'){
+								as[i].tablea='cuds';
+							}
+                        }
+                        //發貨匯入繳庫
+                        alert(q_gridAddRow(bbsHtm, 'tbbs', 'txtPrice', as.length, as, 'Price', '', ''));
+                        q_gridAddRow(bbsHtm, 'tbbs', 'txtPrice', as.length, as, 'Price', '', '');
+                		break;
 					case 'style' :
 						var as = _q_appendData("style", "", true);
 						StyleList = new Array();
@@ -146,12 +157,29 @@
 					calc : StyleList, ucc : t_uccArray, radius : t_Radius, width : t_Width, dime : t_Dime, lengthb : t_Lengthb, mount : t_Mount, style : t_Style, productno : t_Productno, round : 3
 				};
 				return theory_st(theory_setting);
-			}
+            }
+            function pricein() {
+                        for (var j = 0; j < q_bbsCount; j++) {
+                            var t_noa = $.trim($('#txtNoa').val());
+                            var t_tggno = $.trim($('#txtTggno').val());
+                            var t_ordeno = $.trim($('#txtDescr_' + j).val());
+                            var t_productno = $.trim($('#txtProductno_' + j).val());
+                            var t_spec = $.trim($('#txtSurface_' + j).val());
+                            var t_dime = $.trim($('#txtDime_' + j).val());
+                            var t_typen = '2';
+                            alert(t_productno +" "+t_spec+""+t_dime);
+                            q_gt('rc2e_import', "where=^^['" + t_noa + "','" + t_tggno + "','" + t_ordeno + "','" + t_productno + "','" + t_spec + "','" + t_dime + "','" + t_typen + "')^^", 0, 0, 0, 0, 0, 0, "rc2e_import");
+                        }
+            }
 			function bbsAssign(){/// 表身運算式
                 for (var j = 0; j < q_bbsCount; j++) {
                     $('#lblNo_' + j).text(j + 1);
-                    if (!$('#btnMinus_' + j).hasClass('isAssign')) {
 
+                    $('#txtDime_' + j).change(function () {//匯入進價
+                        pricein();
+                    });
+
+                    if (!$('#btnMinus_' + j).hasClass('isAssign')) {
                         $('#btnCert_' + j).click(function() {
                             var n = $(this).attr('id').split('_')[$(this).attr('id').split('_').length - 1];
                             btnCert_Seq = n;
@@ -170,6 +198,7 @@
                                 q_gt('view_uccb', "where=^^uno='" + t_uno + "' and not(accy='" + r_accy + "' and tablea='rc2s' and noa='" + t_noa + "')^^", 0, 0, 0, 'checkUno_' + n);
                             }
                         });
+
                         $('#txtMount_' + j).change(function() {
                             sum();
                         });
