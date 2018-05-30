@@ -103,8 +103,8 @@
 								as[i].tablea='cuds';
 							}
                         }
-                        //發貨匯入繳庫
-                        alert(q_gridAddRow(bbsHtm, 'tbbs', 'txtPrice', as.length, as, 'Price', '', ''));
+                        //發貨匯入 帶入進價
+                        //alert(q_gridAddRow(bbsHtm, 'tbbs', 'txtPrice', as.length, as, 'Price', '', ''));
                         q_gridAddRow(bbsHtm, 'tbbs', 'txtPrice', as.length, as, 'Price', '', '');
                 		break;
 					case 'style' :

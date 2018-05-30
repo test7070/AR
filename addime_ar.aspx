@@ -38,8 +38,29 @@
             });
 
             function sum() {
-                cmbStyle()
+				cmbStyle();
+				cmbKind();
+			}
+
+			function cmbKind() {
+                switch ( $('#cmbKind').val() ) {
+                    case '冷軋':
+                        q_cmbParse("cmbSpec", ('').concat(new Array('','0.3','0.4A','0.4','0.5A','0.5','0.6A','0.6','0.7','0.8','0.9','1.0','1.1','1.2','1.3','1.4','1.5','1.6','1.7','1.8','1.9','2')));
+                        break;
+                    case '熱軋':
+                        q_cmbParse("cmbSpec", ('').concat(new Array('','2.0','2.3','2.5','3.0')));
+						break;
+					case '300系冷軋':
+                        q_cmbParse("cmbSpec", ('').concat(new Array('','0')));
+						break;
+					case '300系熱軋':
+                        q_cmbParse("cmbSpec", ('').concat(new Array('','0')));
+                        break;
+                    default:
+                }
             }
+
+
             function cmbStyle() {
                 switch ( $('#cmbStyle').val() ) {
                     case '厚度附價':
@@ -49,7 +70,8 @@
                         $('#txtProductno').css('background-color', '#DDDDDD').css('color', 'black');
                         $('#txtWidth1').css('background-color', '#DDDDDD').css('color', 'black');
                         $('#txtUsetype').css('background-color', '#DDDDDD').css('color', 'black');
-                        document.getElementById("cmbKind").disabled = false;
+						document.getElementById("cmbKind").disabled = false;
+						document.getElementById("cmbSpec").disabled = false;
                         $("#txtPstyle").attr('readonly', false);
                         $('#txtDime1').attr('readonly', false);
                         $('#txtDime2').attr('readonly', false);
@@ -60,6 +82,7 @@
                     case '寬度加價':
                         $("#txtProductno").attr('readonly', true);
                         document.getElementById("cmbKind").disabled = true;
+                        document.getElementById("cmbSpec").disabled = true;
                         $("#txtPstyle").attr('readonly', true);
                         $("#txtDime1").attr('readonly', true);
                         $("#txtDime2").attr('readonly', true);
@@ -75,6 +98,7 @@
                     case '料別附價':
                         $("#txtProductno").attr('readonly', true);
                         document.getElementById("cmbKind").disabled=true;
+                        document.getElementById("cmbSpec").disabled=true;
                         $("#txtPstyle").attr('readonly', true);
                         $('#txtWidth1').attr('readonly', true);
                         $("#txtDime1").attr('readonly', true);
@@ -90,6 +114,7 @@
                     case '表面加減價':
                         $("#txtProductno").attr('readonly', true);
                         document.getElementById("cmbKind").disabled=true;
+                        document.getElementById("cmbSpec").disabled=true;
                         $("#txtUsetype").attr('readonly', true);
                         $('#txtWidth1').attr('readonly', true);
                         $("#txtDime1").attr('readonly', true);
@@ -105,6 +130,7 @@
                     case '鋼種加減價':
                         $("#txtPstyle").attr('readonly', true);
                         document.getElementById("cmbKind").disabled=true;
+                        document.getElementById("cmbSpec").disabled=true;
                         $("#txtUsetype").attr('readonly', true);
                         $('#txtWidth1').attr('readonly', true);
                         $("#txtDime1").attr('readonly', true);
@@ -135,7 +161,7 @@
 				bbmNum = [['txtDime1', 10, 2, 1],['txtDime2', 10, 2, 1],['txtWidth1', 10, 2, 1],['txtPrice', 10, q_getPara('vcc.pricePrecision'), 1]];
 				q_gt('custtype', '', 0, 0, 0, "custtype");
                 q_cmbParse("cmbStyle", ('').concat(new Array('','鋼種加減價','表面加減價','料別附價','寬度加價','厚度附價')));
-                q_cmbParse("cmbKind", ('').concat(new Array('', '300系冷軋', '300系熱軋')));
+				q_cmbParse("cmbKind", ('').concat(new Array('', '300系冷軋', '300系熱軋', '冷軋', '熱軋')));
 			}
 
 			function q_boxClose(s2) {
@@ -174,7 +200,7 @@
 			function btnIns() {
 				_btnIns();
 				$('#txtNoa').val('AUTO');
-				$('#txtMon').val(q_date().substring(0,6)).focus();
+				$('#txtMon').val(q_date().substring(0,7)).focus();
 			}
 
 			function btnModi() {
@@ -279,7 +305,7 @@
 			}
 			.dview {
 				float: left;
-				width: 450px;
+				width: 1000px;
 				border-width: 0px;
 			}
 			.tview {
@@ -401,20 +427,34 @@
 						<td align="center" style="width:100px; color:black;"><a id='vewMon'> </a></td>
 						<td align="center" style="width:150px; color:black;"><a id='vewNoa'> </a></td>
 						<td align="center" style="width:150px; color:black;"><a>類別</a></td>
+						<td align="center" style="width:150px; color:black;"><a>鋼種</a></td>
+						<td align="center" style="width:150px; color:black;"><a>產品名稱</a></td>
+						<td align="center" style="width:150px; color:black;"><a>表面</a></td>
+						<td align="center" style="width:150px; color:black;"><a>厚度項目</a></td>
+						<td align="center" style="width:150px; color:black;"><a>厚度1</a></td>
+						<td align="center" style="width:150px; color:black;"><a>厚度2</a></td>
+						<td align="center" style="width:150px; color:black;"><a>寬度</a></td>
+						<td align="center" style="width:150px; color:black;"><a>價格</a></td>
 					</tr>
 					<tr>
 						<td><input id="chkBrow.*" type="checkbox" style=' '/></td>
 						<td id='mon' style="text-align: center;">~mon</td>
 						<td id='noa' style="text-align: center;">~noa</td>
 						<td id='style' style="text-align: center;">~style</td>
+						<td id='productno' style="text-align: center;">~productno</td>
+						<td id='kind' style="text-align: center;">~kind</td>
+						<td id='pstyle' style="text-align: center;">~pstyle</td>
+						<td id='spec' style="text-align: center;">~spec</td>
+						<td id='dime1' style="text-align: center;">~dime1</td>
+						<td id='dime2' style="text-align: center;">~dime2</td>
+						<td id='Width1' style="text-align: center;">~Width1</td>
+						<td id='price' style="text-align: center;">~price</td>
 					</tr>
 				</table>
 			</div>
 			<div class='dbbm'>
 				<table class="tbbm" id="tbbm" border="0">
-					<tr style="height:1px;">
-						<td></td><td></td><td></td><td></td><td class="tdZ"></td>
-					</tr>
+					<tr style="height:1px;"><td></td><td></td><td></td><td></td><td class="tdZ"></td></tr>
 					<tr>
 						<td><span> </span><a id='lblNoa' class="lbl"> </a></td>
 						<td><input id="txtNoa" type="text" class="txt c1" /></td>
@@ -431,7 +471,7 @@
 					</tr>
                     <tr>
 						<td><span> </span><a id='' class="lbl">產品名稱</a></td>
-						<td><select id="cmbKind" class="txt c1" > </select></td>
+						<td><select id="cmbKind" class="txt c1" onchange="cmbKind()"> </select></td>
 					</tr>
 					<tr>
 						<td><span> </span><a id='' class="lbl">表面</a></td>
@@ -440,14 +480,18 @@
                         <td><input id="txtUsetype" type="text" class="txt c0" /> 料</td>
 					</tr>
 					<tr>
+						<td><span> </span><a id='' class="lbl">厚度項目</a></td>
+						<td><select id="cmbSpec" class="txt c1""> </select></td>
+					</tr>
+					<tr>
 						<td><span> </span><a id='' class="lbl">厚度</a></td>
-						<td><input id="txtDime1" type="text" class="txt num c0" />　mm</td>
+						<td><input id="txtDime1" type="text" class="txt num c0" />mm</td>
                         <td align="center" style="width:15px">～</td>
-                        <td><input id="txtDime2" type="text" class="txt num c0" />　mm</td>
+                        <td><input id="txtDime2" type="text" class="txt num c0" />mm</td>
 					</tr>
 					<tr>
 						<td><span> </span><a id='' class="lbl">寬度</a></td>
-						<td><input id="txtWidth1" type="text" class="txt num c0" />　mm</td>
+						<td><input id="txtWidth1" type="text" class="txt num c0" />mm</td>
 					</tr>
 					<tr>
 						<td><span> </span><a id='' class="lbl">附價</a></td>
