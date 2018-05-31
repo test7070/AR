@@ -167,7 +167,6 @@
                             var t_spec = $.trim($('#txtSurface_' + j).val());
                             var t_dime = $.trim($('#txtDime_' + j).val());
                             var t_typen = '2';
-                            alert(t_productno +" "+t_spec+""+t_dime);
                             q_gt('rc2e_import', "where=^^['" + t_noa + "','" + t_tggno + "','" + t_ordeno + "','" + t_productno + "','" + t_spec + "','" + t_dime + "','" + t_typen + "')^^", 0, 0, 0, 0, 0, 0, "rc2e_import");
                         }
             }
@@ -671,7 +670,6 @@
         </div>
         <div class="dbbs">
             <table id="tbbs" class="tbbs" style="text-align:center">
-			
                 <tr style='color:white; background:#003366;'>
                     <td align="center" style="width:30px;"><input class="btn" id="btnPlus" type="button" value='+' style="font-weight: bold;" /></td>
                     <td align="center" style="width:20px;"><a>序</a></td>
@@ -733,14 +731,6 @@
                     <td><input id="txtSurface.*" style="width:90%;"/></td>
                     <td><input id="txtProduct.*" type="text" style="width:90%;"/></td>
 					<td>
-						<!---<input class="txt num" id="textSize1.*" type="text" style="float: left;width:55px;" disabled="disabled"/>
-						<div id="x1.*" style="float: left;display:block;width:20px;padding-top: 4px;">x</div>
-						<input class="txt num" id="textSize2.*" type="text" style="float: left;width:55px;"  disabled="disabled"/>
-						<div id="x2.*" style="float: left;display:block;width:20px;padding-top: 4px;">x</div>
-						<input class="txt num" id="textSize3.*" type="text" style="float: left;width:55px;" disabled="disabled"/>
-						<div id="x3.*" style="float: left;display:block;width:20px;padding-top: 4px;">x</div>
-						<input class="txt num" id="textSize4.*" type="text"  style="float: left;width:55px;" disabled="disabled"/>
-						上為虛擬下為實際--->
 						<input id="txtRadius.*" type="text" style="display:none;"/>
 						<input id="txtDime.*" type="text" style="float: left;width:50px;"/>
 						<div id="x1.*" style="float: left;display:block;width:20px;padding-top: 4px;">x</div>

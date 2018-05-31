@@ -39,16 +39,16 @@
 
             function sum() {
 				cmbStyle();
-				cmbKind();
+				//cmbKind();
 			}
-
+			/*
 			function cmbKind() {
                 switch ( $('#cmbKind').val() ) {
                     case '冷軋':
                         q_cmbParse("cmbSpec", ('').concat(new Array('','0.3','0.4A','0.4','0.5A','0.5','0.6A','0.6','0.7','0.8','0.9','1.0','1.1','1.2','1.3','1.4','1.5','1.6','1.7','1.8','1.9','2')));
                         break;
                     case '熱軋':
-                        q_cmbParse("cmbSpec", ('').concat(new Array('','2.0','2.3','2.5','3.0')));
+                        q_cmbParse("cmbSpec", ('').concat(new Array('','2.0','2.3','2.5','3.0','4.0','4.5','5.0','6.0','6.3')));
 						break;
 					case '300系冷軋':
                         q_cmbParse("cmbSpec", ('').concat(new Array('','0')));
@@ -59,7 +59,7 @@
                     default:
                 }
             }
-
+			*/
 
             function cmbStyle() {
                 switch ( $('#cmbStyle').val() ) {
@@ -91,6 +91,7 @@
                         $('#txtPstyle').css('background-color', '#DDDDDD').css('color', 'black');
                         $('#txtDime1').css('background-color', '#DDDDDD').css('color', 'black');
                         $('#txtDime2').css('background-color', '#DDDDDD').css('color', 'black');
+                        $('#cmbSpec').css('background-color', '#DDDDDD').css('color', 'black');
                         $('#txtUsetype').css('background-color', '#DDDDDD').css('color', 'black');
                         $('#txtWidth1').attr('readonly', false);
                         $('#txtWidth1').css('background-color', 'white').css('color', 'black');
@@ -107,6 +108,7 @@
                         $('#txtPstyle').css('background-color', '#DDDDDD').css('color', 'black');
                         $('#txtDime1').css('background-color', '#DDDDDD').css('color', 'black');
                         $('#txtDime2').css('background-color', '#DDDDDD').css('color', 'black');
+                        $('#cmbSpec').css('background-color', '#DDDDDD').css('color', 'black');
                         $('#txtWidth1').css('background-color', '#DDDDDD').css('color', 'black');
                         $("#txtUsetype").attr('readonly', false);
                         $('#txtUsetype').css('background-color', 'white').css('color', 'black');
@@ -123,6 +125,7 @@
                         $('#txtUsetype').css('background-color', '#DDDDDD').css('color', 'black');
                         $('#txtDime1').css('background-color', '#DDDDDD').css('color', 'black');
                         $('#txtDime2').css('background-color', '#DDDDDD').css('color', 'black');
+                        $('#cmbSpec').css('background-color', '#DDDDDD').css('color', 'black');
                         $('#txtWidth1').css('background-color', '#DDDDDD').css('color', 'black');
                         $("#txtPstyle").attr('readonly', false);
                         $('#txtPstyle').css('background-color', 'white').css('color', 'black');
@@ -139,6 +142,7 @@
                         $('#txtUsetype').css('background-color', '#DDDDDD').css('color', 'black');
                         $('#txtDime1').css('background-color', '#DDDDDD').css('color', 'black');
                         $('#txtDime2').css('background-color', '#DDDDDD').css('color', 'black');
+                        $('#cmbSpec').css('background-color', '#DDDDDD').css('color', 'black');
                         $('#txtWidth1').css('background-color', '#DDDDDD').css('color', 'black');
                         $("#txtProductno").attr('readonly', false);
                         $('#txtProductno').css('background-color', 'white').css('color', 'black');
@@ -481,7 +485,8 @@
 					</tr>
 					<tr>
 						<td><span> </span><a id='' class="lbl">厚度項目</a></td>
-						<td><select id="cmbSpec" class="txt c1""> </select></td>
+						<td><input id="cmbSpec" type="text" class="txt c0" /></td>
+						<!---<td><select id="cmbSpec" class="txt c1""> </select></td>--->
 					</tr>
 					<tr>
 						<td><span> </span><a id='' class="lbl">厚度</a></td>
