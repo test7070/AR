@@ -19,12 +19,7 @@
         var q_readonly = ['txtNoa','txtWorker','txtWorker2'];
         var q_readonlys = ['txtNoq','txtProduct','txtMins'];
         var bbmNum = [];
-        var bbsNum = [['txtMount6', 10, 2, 1],['txtWeight6', 10, 2, 1]
-                     ,['txtMount7', 10, 2, 1],['txtWeight7', 10, 2, 1]
-                     ,['txtMount8', 10, 2, 1],['txtWeight8', 10, 2, 1]
-                     ,['txtMount9', 10, 2, 1],['txtWeight9', 10, 2, 1]
-                     ,['txtMount10', 10, 2, 1],['txtWeight10', 10, 2, 1]
-                     ];
+        var bbsNum = [['txtMount6', 10, 2, 1],['txtWeight6', 10, 2, 1],['txtMount7', 10, 2, 1],['txtWeight7', 10, 2, 1],['txtMount8', 10, 2, 1],['txtWeight8', 10, 2, 1],['txtMount9', 10, 2, 1],['txtWeight9', 10, 2, 1],['txtMount10', 10, 2, 1],['txtWeight10', 10, 2, 1]];
         var bbmMask = [];
         var bbsMask = [];
         q_sqlCount = 6;
@@ -97,6 +92,7 @@
             //q_box('*.aspx', q_name + '_s', "500px", "310px", q_getMsg("popSeek"));
         }
 		function pricein() { //抓取當月加價
+			alert("30");
 			for (var j = 0; j < q_bbsCount; j++) {
 				var t_noa = $.trim($('#txtNoa').val());
 				var t_tggno = $.trim($('#txtTggno').val());
