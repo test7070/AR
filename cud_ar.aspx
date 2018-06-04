@@ -10,236 +10,242 @@
     <script src='../script/mask.js' type="text/javascript"></script>
     <link href="../qbox.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript">
-        this.errorHandler = null;
-        function onPageError(error) {
-            alert("An error occurred:\r\n" + error.Message);
-        }
-        q_tables = 's';
-        var q_name = "cud";
-        var q_readonly = ['txtNoa','txtWorker','txtWorker2'];
-        var q_readonlys = ['txtNoq','txtProduct','txtMins'];
-        var bbmNum = [];
-        var bbsNum = [['txtMount6', 10, 2, 1],['txtWeight6', 10, 2, 1],['txtMount7', 10, 2, 1],['txtWeight7', 10, 2, 1],['txtMount8', 10, 2, 1],['txtWeight8', 10, 2, 1],['txtMount9', 10, 2, 1],['txtWeight9', 10, 2, 1],['txtMount10', 10, 2, 1],['txtWeight10', 10, 2, 1]];
-        var bbmMask = [];
-        var bbsMask = [];
-        q_sqlCount = 6;
+		this.errorHandler = null;
+		function onPageError(error) {
+			alert("An error occurred:\r\n" + error.Message);
+		}
+		q_tables = 's';
+		var q_name = "cud";
+		var q_readonly = ['txtNoa', 'txtWorker', 'txtWorker2'];
+		var q_readonlys = ['txtNoq', 'txtProduct', 'txtMins'];
+		var bbmNum = [];
+		var bbsNum = [['txtMount6', 10, 2, 1], ['txtWeight6', 10, 2, 1], ['txtMount7', 10, 2, 1], ['txtWeight7', 10, 2, 1], ['txtMount8', 10, 2, 1], ['txtWeight8', 10, 2, 1], ['txtMount9', 10, 2, 1], ['txtWeight9', 10, 2, 1], ['txtMount10', 10, 2, 1], ['txtWeight10', 10, 2, 1]];
+		var bbmMask = [];
+		var bbsMask = [];
+		q_sqlCount = 6;
 		brwCount = 6;
 		brwList = [];
 		brwNowPage = 0;
 		brwKey = 'Noa';
-		brwCount2= 6;
+		brwCount2 = 6;
 		aPop = new Array(
 			['txtCustno', 'lblCustno', 'cust', 'noa,comp', 'txtCustno,txtCust', 'cust_b.aspx'],
 			['txtProductno_', 'btnProductno_', 'ucc', 'noa,product', 'txtProductno_,txtProduct_', 'ucc_b.aspx']
 		);
-        $(document).ready(function () {
-            bbmKey = ['noa'];
-            bbsKey = ['noa', 'noq'];
-            q_brwCount();   
+		$(document).ready(function () {
+			bbmKey = ['noa'];
+			bbsKey = ['noa', 'noq'];
+			q_brwCount();
 			q_gt(q_name, q_content, q_sqlCount, 1, 0, '', r_accy);
-        });
+		});
 
-        //////////////////   end Ready
-        function main() {
-            if (dataErr){
+		//////////////////   end Ready
+		function main() {
+			if (dataErr) {
 				dataErr = false;
 				return;
-            }
-            mainForm(1); 
-        }  
-		
-        function mainPost() { 
-            q_getFormat();
-            bbmMask = [['txtDatea',r_picd]];
-            q_mask(bbmMask);
-        }
+			}
+			mainForm(1);
+		}
 
-        function q_boxClose(s2) { ///   q_boxClose 2/4 
-            var ret;
-            switch (b_pop) {   
+		function mainPost() {
+			q_getFormat();
+			bbmMask = [['txtDatea', r_picd]];
+			q_mask(bbmMask);
+		}
+
+		function q_boxClose(s2) { ///   q_boxClose 2/4
+			var ret;
+			switch (b_pop) {
 				case q_name + '_s':
-				    q_boxClose2(s2); ///   q_boxClose 3/4
-				    break;
-            }   /// end Switch
-            b_pop = '';
-        }
+					q_boxClose2(s2); ///   q_boxClose 3/4
+					break;
+			}   /// end Switch
+			b_pop = '';
+		}
 
-        function q_gtPost(t_name) {
-        }
+		function q_gtPost(t_name) {
+			switch (t_name) {
+				case 'rc2e_import':
+					as = _q_appendData(t_name, "", true);
+					for (var i = 0; i < as.length; i++) {
+						if (q_getPara('sys.steel') == '1') {
+							as[i].tablea = 'cuds';
+						}
+					}
+					alert(q_gridAddRow(bbsHtm, 'tbbs', 'txtWeight7,txtMount8,txtWeight8,txtMount9', as.length, as, 'Weight7,Mount8,Weight8,Mount9', '', ''));
+					q_gridAddRow(bbsHtm, 'tbbs', 'txtWeight7,txtMount8,txtWeight8,txtMount9', as.length, as, 'Weight7,Mount8,Weight8,Mount9', '', '');
+					break;
+			}  /// end switch
+		}
 
-        function btnOk() {
-            t_err = q_chkEmpField([['txtNoa', q_getMsg('lblNoa')]]);  
-            if (t_err.length > 0) {
+		function btnOk() {
+			t_err = q_chkEmpField([['txtNoa', q_getMsg('lblNoa')]]);
+			if (t_err.length > 0) {
 				alert(t_err);
 				return;
-            }
-            sum();
-			if(q_cur==1)
+			}
+			sum();
+			if (q_cur == 1)
 				$('#txtWorker').val(r_name);
 			else
 				$('#txtWorker2').val(r_name);
-            var s1 = $('#txt' + bbmKey[0].substr( 0,1).toUpperCase() + bbmKey[0].substr(1)).val();
+			var s1 = $('#txt' + bbmKey[0].substr(0, 1).toUpperCase() + bbmKey[0].substr(1)).val();
 			var t_date = trim($('#txtDatea').val());
-            if (s1.length == 0 || s1 == "AUTO")   
-                    q_gtnoa(q_name, replaceAll(q_getPara('sys.key_cud') + (t_date.length == 0 ? q_date() : t_date), '/', ''));
-            else
+			if (s1.length == 0 || s1 == "AUTO")
+				q_gtnoa(q_name, replaceAll(q_getPara('sys.key_cud') + (t_date.length == 0 ? q_date() : t_date), '/', ''));
+			else
 				wrServer(s1);
-        }
+		}
 
-        function _btnSeek() {
-            if (q_cur > 0 && q_cur < 4)  // 1-3
+		function _btnSeek() {
+			if (q_cur > 0 && q_cur < 4)  // 1-3
 				return;
-            //q_box('*.aspx', q_name + '_s', "500px", "310px", q_getMsg("popSeek"));
-        }
+			//q_box('*.aspx', q_name + '_s', "500px", "310px", q_getMsg("popSeek"));
+		}
 		function pricein() { //抓取當月加價
 			for (var j = 0; j < q_bbsCount; j++) {
 				var t_noa = $.trim($('#txtNoa').val());
 				var t_tggno = $.trim($('#txtTggno').val());
 				var t_ordeno = $.trim($('#txtDescr_' + j).val());
-                var t_productno = $.trim($('#txtProductno_' + j).val());
-                var t_spec = $.trim($('#txtSurface_' + j).val());
-                var t_dime = $.trim($('#txtDime_' + j).val());
+				var t_productno = $.trim($('#txtProductno_' + j).val());
+				var t_spec = $.trim($('#txtSpec_' + j).val());
+				var t_dime = $.trim($('#txtDime_' + j).val());
+				var t_mount6 = $.trim($('#txtMount6_' + j).val());
+				var t_width = $.trim($('#txtClass_' + j).val());
 				var t_typen = '3';
-
-				if (t_productno.length > 0) { 
-					alert("產品名稱:" + t_productno + "型:" + t_spec + "厚度:" + t_dime);
-				}
-                q_gt('rc2e_import', "where=^^['" + t_noa + "','" + t_tggno + "','" + t_ordeno + "','" + t_productno + "','" + t_spec + "','" + t_dime + "','" + t_typen + "')^^", 0, 0, 0, 0, 0, 0, "rc2e_import");
+				q_gt('rc2e_import', "where=^^['" + t_noa + "','" + t_tggno + "','" + t_productno + "','" + t_spec + "','" + t_ordeno + "','" + t_dime + "','" + t_typen + "','" + t_mount6 + "','" + t_width + "')^^", 0, 0, 0, 0, 0, 0, 0, 0, 0, "rc2e_import");
 			}
 		}
-        function bbsAssign() {  
-        	for(var j = 0; j < q_bbsCount; j++) {
-                if (!$('#btnMinus_' + j).hasClass('isAssign')) {
+		function bbsAssign() {
+			for (var j = 0; j < q_bbsCount; j++) {
+				if (!$('#btnMinus_' + j).hasClass('isAssign')) {
 				}
-
 				$('#txtMount6_' + j).change(function () { //匯入基價
-                        pricein();
-                    });
-            }
-            _bbsAssign();
-        }
+					pricein();
+				});
+			}
+			_bbsAssign();
+		}
 
-        function btnIns() {
-            _btnIns();
-            $('#txtNoa').val('AUTO');
-            $('#txtDatea').val(q_date()).focus();
-			for(var j = 0; j < q_bbsCount; j++) {
+		function btnIns() {
+			_btnIns();
+			$('#txtNoa').val('AUTO');
+			$('#txtDatea').val(q_date()).focus();
+			for (var j = 0; j < q_bbsCount; j++) {
 				$('#txtNoq_' + j).val(j + 1);
 			}
-        }
-        function btnModi() {
-            if (emp($('#txtNoa').val()))
+		}
+		function btnModi() {
+			if (emp($('#txtNoa').val()))
 				return;
-            _btnModi();
-        }
-        function btnPrint() {
+			_btnModi();
+		}
+		function btnPrint() {
 			q_box("z_cud_ar.aspx?" + r_userno + ";" + r_name + ";" + q_time + ";date=" + $('#txtDatea').val() + ";" + r_accy, 'z_cud_ar', "95%", "95%", q_getMsg('popPrint'));
-        }
+		}
 
-        function wrServer(key_value) {
-            var i;
-            $('#txt' + bbmKey[0].substr( 0,1).toUpperCase() + bbmKey[0].substr(1)).val(key_value);
-            _btnOk(key_value, bbmKey[0], bbsKey[1], '', 2);
-        }
+		function wrServer(key_value) {
+			var i;
+			$('#txt' + bbmKey[0].substr(0, 1).toUpperCase() + bbmKey[0].substr(1)).val(key_value);
+			_btnOk(key_value, bbmKey[0], bbsKey[1], '', 2);
+		}
 
-        function bbsSave(as) {
-            if (!as['productno'] && !as['product']) {//不存檔條件
-                as[bbsKey[1]] = '';
-                return;
-            }
-            q_nowf();
-            return true;
-        }
-        ///////////////////////////////////////////////////  以下提供事件程式，有需要時修改
+		function bbsSave(as) {
+			if (!as['productno'] && !as['product']) {//不存檔條件
+				as[bbsKey[1]] = '';
+				return;
+			}
+			q_nowf();
+			return true;
+		}
+		///////////////////////////////////////////////////  以下提供事件程式，有需要時修改
 		function refresh(recno) {
-				_refresh(recno);
-				//q_popPost('txtProductno_');
-				$('input[id*="txtProduct_"]').each(function() {
-					thisId = $(this).attr('id').split('_')[$(this).attr('id').split('_').length - 1];
-					$(this).attr('OldValue', $('#txtProductno_' + thisId).val());
-				});
+			_refresh(recno);
+			//q_popPost('txtProductno_');
+			$('input[id*="txtProduct_"]').each(function () {
+				thisId = $(this).attr('id').split('_')[$(this).attr('id').split('_').length - 1];
+				$(this).attr('OldValue', $('#txtProductno_' + thisId).val());
+			});
 		}
 		function q_popPost(s1) {
 			switch (s1) {
 				case 'txtProductno_':
-					$('input[id*="txtProduct_"]').each(function() {
+					$('input[id*="txtProduct_"]').each(function () {
 						thisId = $(this).attr('id').split('_')[$(this).attr('id').split('_').length - 1];
 						$(this).attr('OldValue', $('#txtProductno_' + thisId).val());
-                    });
+					});
 					break;
 			}
 		}
-        function readonly(t_para, empty) {
-            _readonly(t_para, empty);
-        }
+		function readonly(t_para, empty) {
+			_readonly(t_para, empty);
+		}
 
-        function btnMinus(id) {
-            _btnMinus(id);
-        }
+		function btnMinus(id) {
+			_btnMinus(id);
+		}
 
-        function btnPlus(org_htm, dest_tag, afield) {
-            _btnPlus(org_htm, dest_tag, afield);
-        }
+		function btnPlus(org_htm, dest_tag, afield) {
+			_btnPlus(org_htm, dest_tag, afield);
+		}
 
-        function q_appendData(t_Table) {
-            return _q_appendData(t_Table);
-        }
+		function q_appendData(t_Table) {
+			return _q_appendData(t_Table);
+		}
 
-        function btnSeek() {
-            _btnSeek();
-        }
+		function btnSeek() {
+			_btnSeek();
+		}
 
-        function btnTop() {
-            _btnTop();
-        }
-        function btnPrev() {
-            _btnPrev();
-        }
-        function btnPrevPage() {
-            _btnPrevPage();
-        }
+		function btnTop() {
+			_btnTop();
+		}
+		function btnPrev() {
+			_btnPrev();
+		}
+		function btnPrevPage() {
+			_btnPrevPage();
+		}
 
-        function btnNext() {
-            _btnNext();
-        }
-        function btnNextPage() {
-            _btnNextPage();
-        }
+		function btnNext() {
+			_btnNext();
+		}
+		function btnNextPage() {
+			_btnNextPage();
+		}
 
-        function btnBott() {
-            _btnBott();
-        }
-        function q_brwAssign(s1) {
-            _q_brwAssign(s1);
-        }
+		function btnBott() {
+			_btnBott();
+		}
+		function q_brwAssign(s1) {
+			_q_brwAssign(s1);
+		}
 
-        function btnDele() {
-            _btnDele();
-        }
+		function btnDele() {
+			_btnDele();
+		}
 
-        function btnCancel() {
-            _btnCancel();
-        }
+		function btnCancel() {
+			_btnCancel();
+		}
 
-        function sum() {
+		function sum() {
 			var t_mount6 = 0, t_weight6 = 0, t_mount7 = 0, t_weight7 = 0, t_mount8 = 0, t_weight8 = 0, t_mount9 = 0, t_weight9 = 0, t_mount10 = 0, t_weight10 = 0;
 			for (var j = 0; j < q_bbsCount; j++) {
 				t_mount6 = dec($('#txtMount6_' + j).val());
-                t_weight6 = dec($('#txtWeight6_' + j).val());
-                t_mount7 = dec($('#txtMount7_' + j).val());
+				t_weight6 = dec($('#txtWeight6_' + j).val());
+				t_mount7 = dec($('#txtMount7_' + j).val());
 				t_weight7 = dec($('#txtWeight7_' + j).val());
-                t_mount8 = dec($('#txtMount8_' + j).val());
-                t_weight8 = dec($('#txtWeight8_' + j).val());
-                t_mount9 = dec($('#txtMount9_' + j).val());
-                t_weight9 = dec($('#txtWeight9_' + j).val());
-                t_mount10 = dec($('#txtMount10_' + j).val());
-                t_weight10 = dec($('#txtWeight10_' + j).val());
-
-                t_Mins = (t_mount6 - t_weight6 - t_mount7 )+ t_weight7 + t_mount8 + t_weight8 + t_mount9 + t_weight9 + t_mount10 + t_weight10 ;
-
-                $('#txtMins_' + j).val(t_Mins);
-
-            }
+				t_mount8 = dec($('#txtMount8_' + j).val());
+				t_weight8 = dec($('#txtWeight8_' + j).val());
+				t_mount9 = dec($('#txtMount9_' + j).val());
+				t_weight9 = dec($('#txtWeight9_' + j).val());
+				t_mount10 = dec($('#txtMount10_' + j).val());
+				t_weight10 = dec($('#txtWeight10_' + j).val());
+				t_Mins = (t_mount6 - t_weight6 - t_mount7) + t_weight7 + t_mount8 + t_weight8 + t_mount9 + t_weight9 + t_mount10 + t_weight10;
+				$('#txtMins_' + j).val(t_Mins);
+			}
 		}
     </script>
     <style type="text/css">

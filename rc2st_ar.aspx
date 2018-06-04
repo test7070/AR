@@ -250,27 +250,24 @@
 				$('#txtMon').click(function(){
 					if ($('#txtMon').attr("readonly")=="readonly" && (q_cur==1 || q_cur==2))
 						q_msg($('#txtMon'), "月份要另外設定，請在"+q_getMsg('lblMemo')+"的第一個字打'*'字");
-                });
+				});
 
                 $('#btnRc2e').click(function (e) {           //進貨發貨匯入
                     var t_noa = $.trim($('#txtNoa').val());
                     var t_tggno = $.trim($('#txtTggno').val());
-                    var t_productno = ''
-                    var t_spec = ''
-                    var t_dime = ''
+					var t_ordeno = '';
+					var t_productno = '';
+					var t_spec = '';
+					var t_dime = '';
+					var t_mount6 = '';
+					var t_width = '';
                     var t_typen = '1';
                 	if(t_tggno.length==0){
                 		alert("請先輸入"+q_getMsg('lblTgg')+" !!");
                 		return;
                 	}
-                    q_gt('rc2e_import', "where=^^['" + t_noa + "','" + t_tggno + "','" + t_productno + "','" + t_spec + "','" + t_ordeno + "','" + t_dime + "','" + t_typen + "','" + Mount6 + "','" + Dime + "','" + Spec + "','" + Width + "')^^", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "rc2e_import");
+                    q_gt('rc2e_import', "where=^^['" + t_noa + "','" + t_tggno + "','" + t_productno + "','" + t_spec + "','" + t_ordeno + "','" + t_dime + "','" + t_typen + "','" + t_mount6 + "','" + t_width + "')^^", 0, 0, 0, 0, 0, 0, 0, 0, 0, "rc2e_import");
 				});
-
-                /*$('#btnRc2e').click(function() {
-					if (!(q_cur == 1 || q_cur == 2))
-						return;
-					btnRc2e(); 
-				});*/
 
 				$('#lblAccno').click(function(){
 					if($('#txtDatea').val().substring(0, 1)==1){
