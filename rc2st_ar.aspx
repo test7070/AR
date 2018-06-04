@@ -263,13 +263,13 @@
                 		alert("請先輸入"+q_getMsg('lblTgg')+" !!");
                 		return;
                 	}
-                    q_gt('rc2e_import', "where=^^['" + t_noa + "','" + t_tggno + "','" + t_productno + "','" + t_spec + "','" + t_dime + "','" + t_typen + "')^^", 0, 0, 0, "rc2e_import");
-                });
-				
+                    q_gt('rc2e_import', "where=^^['" + t_noa + "','" + t_tggno + "','" + t_productno + "','" + t_spec + "','" + t_ordeno + "','" + t_dime + "','" + t_typen + "','" + Mount6 + "','" + Dime + "','" + Spec + "','" + Width + "')^^", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "rc2e_import");
+				});
+
                 /*$('#btnRc2e').click(function() {
 					if (!(q_cur == 1 || q_cur == 2))
 						return;
-					btnRc2e();
+					btnRc2e(); 
 				});*/
 
 				$('#lblAccno').click(function(){

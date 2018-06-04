@@ -166,8 +166,12 @@
                             var t_productno = $.trim($('#txtProductno_' + j).val());
                             var t_spec = $.trim($('#txtSurface_' + j).val());
                             var t_dime = $.trim($('#txtDime_' + j).val());
-                            var t_typen = '2';
-                            q_gt('rc2e_import', "where=^^['" + t_noa + "','" + t_tggno + "','" + t_ordeno + "','" + t_productno + "','" + t_spec + "','" + t_dime + "','" + t_typen + "')^^", 0, 0, 0, 0, 0, 0, "rc2e_import");
+							var t_typen = '2';
+							var Mount6 = 0;
+							var Dime = 0;
+							var Spec = 0;
+							var Width = 0;
+							q_gt('rc2e_import', "where=^^['" + t_noa + "','" + t_tggno + "','" + t_productno + "','" + t_spec + "','" + t_ordeno + "','" + t_dime + "','" + t_typen + "','" + Mount6 + "','" + Dime + "','" + Spec + "','" + Width + "')^^", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "rc2e_import");
                         }
             }
 			function bbsAssign(){/// 表身運算式

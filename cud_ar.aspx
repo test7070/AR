@@ -92,7 +92,6 @@
             //q_box('*.aspx', q_name + '_s', "500px", "310px", q_getMsg("popSeek"));
         }
 		function pricein() { //抓取當月加價
-			alert("30");
 			for (var j = 0; j < q_bbsCount; j++) {
 				var t_noa = $.trim($('#txtNoa').val());
 				var t_tggno = $.trim($('#txtTggno').val());
@@ -100,8 +99,11 @@
                 var t_productno = $.trim($('#txtProductno_' + j).val());
                 var t_spec = $.trim($('#txtSurface_' + j).val());
                 var t_dime = $.trim($('#txtDime_' + j).val());
-                var t_typen = '3';
-                alert(t_productno +" "+t_spec+""+t_dime);
+				var t_typen = '3';
+
+				if (t_productno.length > 0) { 
+					alert("產品名稱:" + t_productno + "型:" + t_spec + "厚度:" + t_dime);
+				}
                 q_gt('rc2e_import', "where=^^['" + t_noa + "','" + t_tggno + "','" + t_ordeno + "','" + t_productno + "','" + t_spec + "','" + t_dime + "','" + t_typen + "')^^", 0, 0, 0, 0, 0, 0, "rc2e_import");
 			}
 		}
