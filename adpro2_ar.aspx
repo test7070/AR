@@ -79,7 +79,7 @@
 			function btnIns() {
 				_btnIns();
 				$('#txtNoa').val('AUTO');
-				$('#txtMon').val(q_date().substring(0,7)).focus();
+				$('#txtMon').val(q_date().substring(0,6)).focus();
 			}
 
 			function btnModi() {
@@ -98,11 +98,6 @@
 			}
 
 			function btnOk() {
-				/*if($('#txtProduct').val().indexOf('鋼帶')==-1){
-					alert('品名加價僅適用鋼帶!!');
-					return;
-				}*/
-				
 				Lock();
 				var t_date = $('#txtMon').val();
 				var s1 = $('#txt' + bbmKey[0].substr(0, 1).toUpperCase() + bbmKey[0].substr(1)).val();

@@ -237,8 +237,7 @@
 				
 				if(t_coin.length>0)
 					q_cmbParse("cmbCoin", t_coin);
-				
-				
+
 				//限制帳款月份的輸入 只有在備註的第一個字為*才能手動輸入					
 				$('#txtMemo').change(function(){
 					if ($('#txtMemo').val().substr(0,1)=='*')
