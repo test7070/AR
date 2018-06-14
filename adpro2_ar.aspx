@@ -29,6 +29,7 @@
 				//['txtPstyle', 'lblPstyle', 'style', 'noa,product', 'txtPstyle,txtProduct,txtPrice', 'style_b.aspx']
 				//['txtProductno', 'lblProductno', 'ucc', 'noa,product', 'txtProductno,txtProduct', 'ucc_b.aspx']
 			);
+			q_copy = 1;
 
 			$(document).ready(function() {
 				bbmKey = ['noa'];

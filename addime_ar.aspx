@@ -29,7 +29,7 @@
 			brwCount2 = 20;
 			aPop = new Array(
 			);
-
+			q_copy = 1;
 			$(document).ready(function() {
 				bbmKey = ['noa'];
 				brwCount2 = 20
@@ -39,7 +39,6 @@
 
             function sum() {
 				cmbStyle();
-				//cmbKind();
 			}
 			/*
 			function cmbKind() {
@@ -192,9 +191,8 @@
 						if (q_cur == 4)
 							q_Seek_gtPost();
 						break;
-				}
+				} /// end switch
 			}
-
 			function _btnSeek() {
 				if (q_cur > 0 && q_cur < 4)
 					return;
@@ -204,7 +202,9 @@
 			function btnIns() {
 				_btnIns();
 				$('#txtNoa').val('AUTO');
-				$('#txtMon').val(q_date().substring(0,7)).focus();
+				//$('#txtMon').val(q_date().substring(0,7)).focus();
+				$('#txtMon').val(q_date().substring(0,6)).focus();
+				
 			}
 
 			function btnModi() {
@@ -233,6 +233,8 @@
 				else
 					wrServer(s1);
 			}
+
+
 
 			function wrServer(key_value) {
 				var i;
@@ -302,6 +304,7 @@
 			function btnCancel() {
 				_btnCancel();
 			}
+
 		</script>
 		<style type="text/css">
 			#dmain {
@@ -418,9 +421,9 @@
 		</style>
 	</head>
 	<body ondragstart="return false" draggable="false"
-	ondragenter="event.dataTransfer.dropEffect='none'; event.stopPropagation(); event.preventDefault();"
-	ondragover="event.dataTransfer.dropEffect='none';event.stopPropagation(); event.preventDefault();"
-	ondrop="event.dataTransfer.dropEffect='none';event.stopPropagation(); event.preventDefault();"
+		ondragenter="event.dataTransfer.dropEffect='none'; event.stopPropagation(); event.preventDefault();"
+		ondragover="event.dataTransfer.dropEffect='none';event.stopPropagation(); event.preventDefault();"
+		ondrop="event.dataTransfer.dropEffect='none';event.stopPropagation(); event.preventDefault();"
 	>
 		<!--#include file="../inc/toolbar.inc"-->
 		<div id='dmain'>
@@ -451,7 +454,7 @@
 						<td id='spec' style="text-align: center;">~spec</td>
 						<td id='dime1' style="text-align: center;">~dime1</td>
 						<td id='dime2' style="text-align: center;">~dime2</td>
-						<td id='Width1' style="text-align: center;">~Width1</td>
+						<td id='width1' style="text-align: center;">~width1</td>
 						<td id='price' style="text-align: center;">~price</td>
 					</tr>
 				</table>

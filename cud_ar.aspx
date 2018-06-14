@@ -73,7 +73,7 @@
 							as[i].tablea = 'cuds';
 						}
 					}
-					alert(q_gridAddRow(bbsHtm, 'tbbs', 'txtWeight7,txtMount8,txtWeight8,txtMount9', as.length, as, 'Weight7,Mount8,Weight8,Mount9', '', ''));
+					//alert(q_gridAddRow(bbsHtm, 'tbbs', 'txtWeight7,txtMount8,txtWeight8,txtMount9', as.length, as, 'Weight7,Mount8,Weight8,Mount9', '', ''));
 					q_gridAddRow(bbsHtm, 'tbbs', 'txtWeight7,txtMount8,txtWeight8,txtMount9', as.length, as, 'Weight7,Mount8,Weight8,Mount9', '', '');
 					break;
 			}  /// end switch
@@ -101,13 +101,13 @@
 		function _btnSeek() {
 			if (q_cur > 0 && q_cur < 4)  // 1-3
 				return;
-			//q_box('*.aspx', q_name + '_s', "500px", "310px", q_getMsg("popSeek"));
 		}
-		function pricein() { //抓取當月加價
+		function btnPricein() { //抓取當月附價
+			alert(":");
 			for (var j = 0; j < q_bbsCount; j++) {
 				var t_noa = $.trim($('#txtNoa').val());
 				var t_tggno = $.trim($('#txtTggno').val());
-				var t_ordeno = $.trim($('#txtDescr_' + j).val());
+				var t_ordeno = '';
 				var t_productno = $.trim($('#txtProductno_' + j).val());
 				var t_spec = $.trim($('#txtSpec_' + j).val());
 				var t_dime = $.trim($('#txtDime_' + j).val());
@@ -121,13 +121,9 @@
 			for (var j = 0; j < q_bbsCount; j++) {
 				if (!$('#btnMinus_' + j).hasClass('isAssign')) {
 				}
-				$('#txtMount6_' + j).change(function () { //匯入基價
-					pricein();
-				});
 			}
 			_bbsAssign();
 		}
-
 		function btnIns() {
 			_btnIns();
 			$('#txtNoa').val('AUTO');
@@ -442,6 +438,7 @@
 					<td class="td2"><input id="txtWorker"  type="text" class="txt c1"/></td>
 					<td class='td3'><span> </span><a id="lblWorker2" class="lbl"></a></td>
 					<td class="td4"><input id="txtWorker2"  type="text" class="txt c1"/></td>
+					<td class='td5'><input id="btnPricein" type="button" value="匯入附價" onclick="btnPricein()"/></td>
 				</tr>
 			</table>
         </div>
