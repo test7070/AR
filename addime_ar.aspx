@@ -234,8 +234,6 @@
 					wrServer(s1);
 			}
 
-
-
 			function wrServer(key_value) {
 				var i;
 				xmlSql = '';

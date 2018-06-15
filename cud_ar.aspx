@@ -103,7 +103,6 @@
 				return;
 		}
 		function btnPricein() { //抓取當月附價
-			alert(":");
 			for (var j = 0; j < q_bbsCount; j++) {
 				var t_noa = $.trim($('#txtNoa').val());
 				var t_tggno = $.trim($('#txtTggno').val());
