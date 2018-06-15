@@ -52,6 +52,32 @@
 			q_getFormat();
 			bbmMask = [['txtDatea', r_picd]];
 			q_mask(bbmMask);
+			
+            $("#btnPricein").attr('disabled', true);
+			$('#btnPricein').click(function (e) {
+				//for (var j = 0; j < q_bbsCount; j++) {
+					var t_noa = $.trim($('#txtNoa').val());
+					var t_tggno = $.trim($('#txtTggno').val());
+					var t_ordeno = '';
+					var t_productno = $.trim($('#txtProductno_' + j).val());
+					var t_spec = $.trim($('#txtSpec_' + j).val());
+					var t_dime = $.trim($('#txtDime_' + j).val());
+					var t_mount6 = $.trim($('#txtMount6_' + j).val());
+					var t_width = $.trim($('#txtClass_' + j).val());
+					var t_typen = '3';
+					q_gt('rc2e_import', "where=^^['" + t_noa + "','" + t_tggno + "','" + t_productno + "','" + t_spec + "','" + t_ordeno + "','" + t_dime + "','" + t_typen + "','" + t_mount6 + "','" + t_width + "')^^", 0, 0, 0, 0, 0, 0, 0, 0, 0, "rc2e_import");
+				//}
+				
+				/*var t_bdate = $('#txtBdate').val();
+				var t_edate = $('#txtEdate').val();
+				var t_custno = $('#txtCustno').val();
+				var t_salesno = $('#txtSalesno').val();
+				if (t_bdate.length == 0 || t_edate.length == 0) {
+					alert('請輸入日期。');
+					return;
+				}
+				q_func('qtxt.query.vccpr', 'vccpr.txt,import,' + encodeURI(t_bdate) + ';' + encodeURI(t_edate) + ';' + encodeURI(t_custno) + ';' + encodeURI(t_salesno));*/
+            });
 		}
 
 		function q_boxClose(s2) { ///   q_boxClose 2/4
@@ -67,14 +93,19 @@
 		function q_gtPost(t_name) {
 			switch (t_name) {
 				case 'rc2e_import':
-					as = _q_appendData(t_name, "", true);
+					/*as = _q_appendData(t_name, "", true);
 					for (var i = 0; i < as.length; i++) {
 						if (q_getPara('sys.steel') == '1') {
 							as[i].tablea = 'cuds';
 						}
 					}
 					//alert(q_gridAddRow(bbsHtm, 'tbbs', 'txtWeight7,txtMount8,txtWeight8,txtMount9', as.length, as, 'Weight7,Mount8,Weight8,Mount9', '', ''));
-					q_gridAddRow(bbsHtm, 'tbbs', 'txtWeight7,txtMount8,txtWeight8,txtMount9', as.length, as, 'Weight7,Mount8,Weight8,Mount9', '', '');
+					q_gridAddRow(bbsHtm, 'tbbs', 'txtWeight7,txtMount8,txtWeight8,txtMount9', as.length, as, 'Weight7,Mount8,Weight8,Mount9', '', '');*/
+
+                    var as = _q_appendData(t_name, "", true, true);
+						q_gridAddRow(bbsHtm, 'tbbs', 'txtWeight7,txtMount8,txtWeight8,txtMount9', as.length, as, 'Weight7,Mount8,Weight8,Mount9', '', '');
+                        sum();
+					Unlock(1);
 					break;
 			}  /// end switch
 		}
@@ -96,26 +127,14 @@
 				q_gtnoa(q_name, replaceAll(q_getPara('sys.key_cud') + (t_date.length == 0 ? q_date() : t_date), '/', ''));
 			else
 				wrServer(s1);
+			$("#btnPricein").attr('disabled', true);
 		}
 
 		function _btnSeek() {
 			if (q_cur > 0 && q_cur < 4)  // 1-3
 				return;
 		}
-		function btnPricein() { //抓取當月附價
-			for (var j = 0; j < q_bbsCount; j++) {
-				var t_noa = $.trim($('#txtNoa').val());
-				var t_tggno = $.trim($('#txtTggno').val());
-				var t_ordeno = '';
-				var t_productno = $.trim($('#txtProductno_' + j).val());
-				var t_spec = $.trim($('#txtSpec_' + j).val());
-				var t_dime = $.trim($('#txtDime_' + j).val());
-				var t_mount6 = $.trim($('#txtMount6_' + j).val());
-				var t_width = $.trim($('#txtClass_' + j).val());
-				var t_typen = '3';
-				q_gt('rc2e_import', "where=^^['" + t_noa + "','" + t_tggno + "','" + t_productno + "','" + t_spec + "','" + t_ordeno + "','" + t_dime + "','" + t_typen + "','" + t_mount6 + "','" + t_width + "')^^", 0, 0, 0, 0, 0, 0, 0, 0, 0, "rc2e_import");
-			}
-		}
+
 		function bbsAssign() {
 			for (var j = 0; j < q_bbsCount; j++) {
 				if (!$('#btnMinus_' + j).hasClass('isAssign')) {
@@ -126,6 +145,7 @@
 		function btnIns() {
 			_btnIns();
 			$('#txtNoa').val('AUTO');
+			$("#btnPricein").attr('disabled', false);
 			$('#txtDatea').val(q_date()).focus();
 			for (var j = 0; j < q_bbsCount; j++) {
 				$('#txtNoq_' + j).val(j + 1);
@@ -135,6 +155,7 @@
 			if (emp($('#txtNoa').val()))
 				return;
 			_btnModi();
+			$("#btnPricein").attr('disabled', false);
 		}
 		function btnPrint() {
 			q_box("z_cud_ar.aspx?" + r_userno + ";" + r_name + ";" + q_time + ";date=" + $('#txtDatea').val() + ";" + r_accy, 'z_cud_ar', "95%", "95%", q_getMsg('popPrint'));
@@ -222,6 +243,7 @@
 		}
 
 		function btnCancel() {
+			$("#btnPricein").attr('disabled', true);
 			_btnCancel();
 		}
 
@@ -437,7 +459,7 @@
 					<td class="td2"><input id="txtWorker"  type="text" class="txt c1"/></td>
 					<td class='td3'><span> </span><a id="lblWorker2" class="lbl"></a></td>
 					<td class="td4"><input id="txtWorker2"  type="text" class="txt c1"/></td>
-					<td class='td5'><input id="btnPricein" type="button" value="匯入附價" onclick="btnPricein()"/></td>
+					<td class='td5'><input id="btnPricein" type="button" value="匯入附價"/></td>
 				</tr>
 			</table>
         </div>
