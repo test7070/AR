@@ -55,7 +55,7 @@
 			
             $("#btnPricein").attr('disabled', true);
 			$('#btnPricein').click(function (e) {
-				//for (var j = 0; j < q_bbsCount; j++) {
+				for (var j = 0; j < q_bbsCount; j++) {
 					var t_noa = $.trim($('#txtNoa').val());
 					var t_tggno = $.trim($('#txtTggno').val());
 					var t_ordeno = '';
@@ -66,7 +66,7 @@
 					var t_width = $.trim($('#txtClass_' + j).val());
 					var t_typen = '3';
 					q_gt('rc2e_import', "where=^^['" + t_noa + "','" + t_tggno + "','" + t_productno + "','" + t_spec + "','" + t_ordeno + "','" + t_dime + "','" + t_typen + "','" + t_mount6 + "','" + t_width + "')^^", 0, 0, 0, 0, 0, 0, 0, 0, 0, "rc2e_import");
-				//}
+				}
 				
 				/*var t_bdate = $('#txtBdate').val();
 				var t_edate = $('#txtEdate').val();
