@@ -1,23 +1,15 @@
-﻿copyaddime_ar: ---付價copy
+﻿copymonaddime: ---月份附價copy
 SET QUOTED_IDENTIFIER OFF
-declare @tnoa nvarchar(50) = [1] --單號
-----新增一個單據編號
-declare @mon0 nvarchar(3) = (SELECT (CONVERT(VARCHAR(4) , GETDATE(), 112 ))-1911) --當下年年分
-declare @mon1 nvarchar(3) = (SELECT CONVERT(VARCHAR(2) , GETDATE(), 101 )) --當下年月分
-declare @mon nvarchar(6) = @mon0+'/'+@mon1
-declare @mona nvarchar(6) = @mon0+@mon1
-declare @addimenoa_t nvarchar(50) = (select max(noa) from addime where mon=@mon) --取得當月最後一個單號
-declare @cmd nvarchar(max)
-declare @addimenoa nvarchar(50)
+declare @t_Cmon nvarchar(50) = [1] 
+declare @t_Nmon nvarchar(50) = [2]
+declare @Number INT = (select count(noa) from addime where mon=@t_Cmon)
+declare @Num INT = 1
+declare @mon0 nvarchar(3) = (SELECT (CONVERT(VARCHAR(4) , GETDATE(), 112 ))-1911) --當下年 年分
+declare @mon1 nvarchar(3) = (SELECT CONVERT(VARCHAR(2) , GETDATE(), 101 )) --當下年 月分
 
---判斷是否有單號
-if (len(ISNULL(@addimenoa_t,'')) > 0)
-	set @addimenoa = @addimenoa_t+1
-else
-	set @addimenoa = @mona+'001'
-	
 declare @tmp table(
-	noa nvarchar(max)
+	Number INT
+	,noa nvarchar(max)
 	,mon nvarchar(max)
 	,style nvarchar(max)
 	,productno nvarchar(max)
@@ -30,52 +22,20 @@ declare @tmp table(
 	,width1 float
 	,price float
 )
-insert into @tmp
-select @addimenoa,@mon,style,productno,kind,pstyle,usetype,spec,dime1,dime2,width1,price from addime where noa=@tnoa
-begin
-	--表頭資料
-	set @cmd="insert addime (noa,mon,style,productno,kind,pstyle,usetype,spec,dime1,dime2,width1,price)
-			  select noa,@mon,style,productno,kind,pstyle,usetype,spec,dime1,dime2,width1,price from @tmp where noa=@addimenoa"
-	EXECUTE sp_executesql @cmd
-end
-;
 
---************************************************************************************************************************
---************************************************************************************************************************
---************************************************************************************************************************
-copyadpro2_ar: ---基價copy
-SET QUOTED_IDENTIFIER OFF
-declare @tnoa nvarchar(50) = [1] --單號
-----新增一個單據編號
-declare @mon0 nvarchar(3) = (SELECT (CONVERT(VARCHAR(4) , GETDATE(), 112 ))-1911) --當下年年分
-declare @mon1 nvarchar(3) = (SELECT CONVERT(VARCHAR(2) , GETDATE(), 101 )) --當下年月分
-declare @mon nvarchar(6) = @mon0+'/'+@mon1
-declare @mona nvarchar(6) = @mon0+@mon1
-declare @adpro2noa_t nvarchar(50) = (select max(noa) from adpro2 where mon=@mon) --取得當月最後一個單號
-declare @cmd nvarchar(max)
-declare @adpro2noa nvarchar(50)
---判斷是否有單號
-if (len(ISNULL(@adpro2noa_t,'')) > 0)
-	set @adpro2noa = @adpro2noa_t+1
-else
-	set @adpro2noa = @mona+'001'
---建立新的資料
-declare @adpro2_tmp table(
-	noa nvarchar(max)
-	,mon nvarchar(max)
-	,pstyle nvarchar(max)
-	,productno nvarchar(max)
-	,product nvarchar(max)
-	,price float
-	,memo nvarchar(max)
-)
-insert into @adpro2_tmp
-select @adpro2noa,@mon,pstyle,productno,product,price,memo from adpro2 where noa=@tnoa
-begin
-	--表頭資料
-	set @cmd="insert adpro2 (noa,mon,pstyle,productno,product,price,memo)
-			  select noa,mon,pstyle,productno,product,price,memo from @adpro2_tmp where noa=@adpro2noa"
-	EXECUTE sp_executesql @cmd
-end
-select * from @adpro2_tmp
+WHILE @Num <= @Number  --當目前次數小於等於執行次數
+BEGIN
+	--update @tmp set Number=@Num
+	INSERT @tmp (Number,noa,mon) VALUES (@Num,@mon0+@mon1+RIGHT(REPLICATE('0', 3) + CAST(@Num as VARCHAR), 3),@t_Nmon)
+	--設定目前次數+1
+	SET @Num = @Num + 1
+END
+
+update @tmp set a.style=b.style,a.productno=b.productno,a.kind=b.kind,a.pstyle=b.pstyle,a.usetype=b.usetype,a.spec=b.spec,a.dime1=b.dime1,a.dime2=b.dime2,a.width1=b.width1,a.price=b.price from @tmp a 
+left join addime b on b.mon=@t_Cmon and (SUBSTRING(a.noa,6,8))=(SUBSTRING(b.noa,6,8))
+--------更新資料完畢
+
+-----開始寫入addime資料表
+insert into addime (noa,mon,style,productno,kind,pstyle,usetype,spec,dime1,dime2,width1,price)
+select noa,mon,style,productno,kind,pstyle,usetype,spec,dime1,dime2,width1,price from @tmp
 ;

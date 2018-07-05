@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
 	<head>
-		<title></title>
+		<title> </title>
 		<script src="../script/jquery.min.js" type="text/javascript"></script>
 		<script src='../script/qj2.js' type="text/javascript"></script>
 		<script src='qset.js' type="text/javascript"></script>
@@ -9,13 +9,12 @@
 		<script src="../script/qbox.js" type="text/javascript"></script>
 		<script src='../script/mask.js' type="text/javascript"></script>
 		<link href="../qbox.css" rel="stylesheet" type="text/css" />
-
 		<script type="text/javascript">
 			this.errorHandler = null;
 			function onPageError(error) {
 				alert("An error occurred:\r\n" + error.Message);
 			}
-
+            q_copy = 1;
 			var q_name = "addime";
 			var q_readonly = ['txtNoa'];
 			var bbmNum = [];
@@ -29,13 +28,38 @@
 			brwCount2 = 20;
 			aPop = new Array(
 			);
-			q_copy = 1;
+			
 			$(document).ready(function() {
 				bbmKey = ['noa'];
 				brwCount2 = 20
 				q_brwCount();
 				q_gt(q_name, q_content, q_sqlCount, 1);
             });
+            function main() {
+				if (dataErr) {
+					dataErr = false;
+					return;
+				}
+				mainForm(0);
+			}
+
+			function mainPost() {
+                document.title = "附價作業"; //web.title
+				bbmMask = [['txtMon', r_picm],['txtCmon',r_picm],['txtNmon',r_picm]];
+				q_mask(bbmMask);
+				bbmNum = [['txtDime1', 10, 2, 1],['txtDime2', 10, 2, 1],['txtWidth1', 10, 2, 1],['txtPrice', 10, q_getPara('vcc.pricePrecision'), 1]];
+				q_gt('custtype', '', 0, 0, 0, "custtype");
+                q_cmbParse("cmbStyle", ('').concat(new Array('','鋼種加減價','表面加減價','料別附價','寬度加價','厚度附價')));
+				q_cmbParse("cmbKind", ('').concat(new Array('', '300系冷軋', '300系熱軋', '冷軋', '熱軋')));
+				$('#txtCmon').val(q_date().substring(0,6)).focus();
+				$('#txtNmon').val(q_date().substring(0, 6)).focus();
+				$('#copy_addime').click(function () {    //整月份附價複製到新月份
+					var t_Cmon = $("#txtCmon").val();
+					var t_Nmon = $("#txtNmon").val();
+					q_func('qtxt.query.copymonaddime', 'addime_ar.txt,copymonaddime,' + t_Cmon + ';' + t_Nmon);
+					alert("新增成功!!");
+				});
+			}
 
             function sum() {
 				cmbStyle();
@@ -148,25 +172,7 @@
                         break;
                     default:
                 }
-            } 
-
-			function main() {
-				if (dataErr) {
-					dataErr = false;
-					return;
-				}
-				mainForm(0);
-			}
-
-			function mainPost() {
-				bbmMask = [['txtMon', r_picm]];
-				q_mask(bbmMask);
-				bbmNum = [['txtDime1', 10, 2, 1],['txtDime2', 10, 2, 1],['txtWidth1', 10, 2, 1],['txtPrice', 10, q_getPara('vcc.pricePrecision'), 1]];
-				q_gt('custtype', '', 0, 0, 0, "custtype");
-                q_cmbParse("cmbStyle", ('').concat(new Array('','鋼種加減價','表面加減價','料別附價','寬度加價','厚度附價')));
-				q_cmbParse("cmbKind", ('').concat(new Array('', '300系冷軋', '300系熱軋', '冷軋', '熱軋')));
-			}
-
+            }
 			function q_boxClose(s2) {
 				var ret;
 				switch (b_pop) {
@@ -204,10 +210,11 @@
 				$('#txtNoa').val('AUTO');
 				//$('#txtMon').val(q_date().substring(0,7)).focus();
 				$('#txtMon').val(q_date().substring(0,6)).focus();
-				
+				$("#btnCopymonprices").attr("disabled", true);
 			}
 
 			function btnModi() {
+				$("#btnCopymonprices").attr("disabled", true);
 				if (emp($('#txtNoa').val()))
 					return;
 				_btnModi();
@@ -225,6 +232,7 @@
 			}
 
 			function btnOk() {
+				$("#btnCopymonprices").attr("disabled", false);
 				Lock();
 				var t_date = $('#txtMon').val();
 				var s1 = $('#txt' + bbmKey[0].substr(0, 1).toUpperCase() + bbmKey[0].substr(1)).val();
@@ -301,8 +309,22 @@
 
 			function btnCancel() {
 				_btnCancel();
+				$("#btnCopymonprices").attr("disabled", false);
 			}
-
+			
+			function btnmoncopy(){
+				$("div_moncopy").style.visibility="visible";   /*copy 月份附價*/
+			}
+			function closediv(){     //隱藏
+				$("div_moncopy").style.visibility="hidden";	
+			}
+			function Copymonprices(value){
+				if(value == "1"){ //打開複製視窗
+					document.getElementById("Copymonprices").style.display='';
+				}else if(value == "0"){ //關閉複製視窗
+					document.getElementById("Copymonprices").style.display='none';
+				}
+			}
 		</script>
 		<style type="text/css">
 			#dmain {
@@ -418,19 +440,28 @@
 			}
 		</style>
 	</head>
-	<body ondragstart="return false" draggable="false"
-		ondragenter="event.dataTransfer.dropEffect='none'; event.stopPropagation(); event.preventDefault();"
-		ondragover="event.dataTransfer.dropEffect='none';event.stopPropagation(); event.preventDefault();"
-		ondrop="event.dataTransfer.dropEffect='none';event.stopPropagation(); event.preventDefault();"
-	>
+	<body ondragstart="return false" draggable="false" ondragenter="event.dataTransfer.dropEffect='none'; event.stopPropagation(); event.preventDefault();"
+		ondragover="event.dataTransfer.dropEffect='none';event.stopPropagation(); event.preventDefault();" ondrop="event.dataTransfer.dropEffect='none';event.stopPropagation(); event.preventDefault();" >
 		<!--#include file="../inc/toolbar.inc"-->
+		<div id="Copymonprices" style="position:absolute; top:40px; left:120px; display:none; width:300px; background-color: #CDFFCE; border: 5px solid gray;">
+			<table>
+				<tr><td>複製月份</td><td><input id="txtCmon" type="text" class="txt c1" /></td></tr>
+				<tr><td>新增月份</td><td><input id="txtNmon" type="text" class="txt c1" /></td></tr>
+				<tr>
+					<td><input type="button" value="放棄" onclick="Copymonprices(0)"/></td>
+					<td><input type="button" value="新增" id="copy_addime"/></td>
+				</tr>
+			</table>
+		</div>
 		<div id='dmain'>
+			<input type="button" value="附價月份複製" id="btnCopymonprices" onclick="Copymonprices(1)"/>
+			<br>
 			<div class="dview" id="dview">
 				<table class="tview" id="tview">
 					<tr>
 						<td align="center" style="width:20px; color:black;"><a id='vewChk'> </a></td>
-						<td align="center" style="width:100px; color:black;"><a id='vewMon'> </a></td>
 						<td align="center" style="width:150px; color:black;"><a id='vewNoa'> </a></td>
+						<td align="center" style="width:100px; color:black;"><a id='vewMon'> </a></td>
 						<td align="center" style="width:150px; color:black;"><a>類別</a></td>
 						<td align="center" style="width:150px; color:black;"><a>鋼種</a></td>
 						<td align="center" style="width:150px; color:black;"><a>產品名稱</a></td>
@@ -442,9 +473,9 @@
 						<td align="center" style="width:150px; color:black;"><a>價格</a></td>
 					</tr>
 					<tr>
-						<td><input id="chkBrow.*" type="checkbox" style=' '/></td>
-						<td id='mon' style="text-align: center;">~mon</td>
+						<td><input id="chkBrow.*" type="checkbox" style=" "/></td>
 						<td id='noa' style="text-align: center;">~noa</td>
+						<td id='mon' style="text-align: center;">~mon</td>
 						<td id='style' style="text-align: center;">~style</td>
 						<td id='productno' style="text-align: center;">~productno</td>
 						<td id='kind' style="text-align: center;">~kind</td>

@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
 <head>
-    <title>排單作業</title>
+    <title></title>
     <script src="../script/jquery.min.js" type="text/javascript"></script>
     <script src='../script/qj2.js' type="text/javascript"></script>
     <script src='qset.js' type="text/javascript"></script>
@@ -38,7 +38,6 @@
 			q_brwCount();
 			q_gt(q_name, q_content, q_sqlCount, 1, 0, '', r_accy);
 		});
-
 		//////////////////   end Ready
 		function main() {
 			if (dataErr) {
@@ -47,8 +46,8 @@
 			}
 			mainForm(1);
 		}
-
 		function mainPost() {
+			document.title = "排單作業"; //web.title
 			q_getFormat();
 			bbmMask = [['txtDatea', r_picd]];
 			q_mask(bbmMask);
@@ -67,16 +66,6 @@
 					var t_typen = '3';
 					q_gt('rc2e_import', "where=^^['" + t_noa + "','" + t_tggno + "','" + t_productno + "','" + t_spec + "','" + t_ordeno + "','" + t_dime + "','" + t_typen + "','" + t_mount6 + "','" + t_width + "')^^", 0, 0, 0, 0, 0, 0, 0, 0, 0, "rc2e_import");
 				}
-				
-				/*var t_bdate = $('#txtBdate').val();
-				var t_edate = $('#txtEdate').val();
-				var t_custno = $('#txtCustno').val();
-				var t_salesno = $('#txtSalesno').val();
-				if (t_bdate.length == 0 || t_edate.length == 0) {
-					alert('請輸入日期。');
-					return;
-				}
-				q_func('qtxt.query.vccpr', 'vccpr.txt,import,' + encodeURI(t_bdate) + ';' + encodeURI(t_edate) + ';' + encodeURI(t_custno) + ';' + encodeURI(t_salesno));*/
             });
 		}
 
@@ -147,8 +136,8 @@
 			$('#txtNoa').val('AUTO');
 			$("#btnPricein").attr('disabled', false);
 			$('#txtDatea').val(q_date()).focus();
-			for (var j = 0; j < q_bbsCount; j++) {
-				$('#txtNoq_' + j).val(j + 1);
+			for (var j = 0; j < 5; j++) {
+				$("#btnPlus").click();
 			}
 		}
 		function btnModi() {
@@ -197,12 +186,11 @@
 		function readonly(t_para, empty) {
 			_readonly(t_para, empty);
 		}
-
 		function btnMinus(id) {
 			_btnMinus(id);
 		}
 
-		function btnPlus(org_htm, dest_tag, afield) {
+		function btnPlus(org_htm, dest_tag, afield){
 			_btnPlus(org_htm, dest_tag, afield);
 		}
 
@@ -241,12 +229,10 @@
 		function btnDele() {
 			_btnDele();
 		}
-
 		function btnCancel() {
 			$("#btnPricein").attr('disabled', true);
 			_btnCancel();
 		}
-
 		function sum() {
 			var t_mount6 = 0, t_weight6 = 0, t_mount7 = 0, t_weight7 = 0, t_mount8 = 0, t_weight8 = 0, t_mount9 = 0, t_weight9 = 0, t_mount10 = 0, t_weight10 = 0;
 			for (var j = 0; j < q_bbsCount; j++) {
@@ -266,7 +252,7 @@
 		}
     </script>
     <style type="text/css">
-				#dmain {
+			#dmain {
 				/*overflow: hidden;*/
             }
             .dview {
@@ -292,14 +278,6 @@
                 float: left;
                 width: 800px;
                 border-radius: 5px;
-                /*margin: -1px;
-                 border: 1px black solid;
-				
-				float: left;
-				width: 70%;
-				margin: -1px;
-				border: 1px black solid;
-				border-radius: 5px;*/
             }
             .tbbm {
 				padding: 0px;
@@ -405,8 +383,7 @@
             input[type="text"], input[type="button"] {
 				font-size: medium;
             }
-        .tbbs
-        {
+        .tbbs{
             FONT-SIZE: medium;
             COLOR: blue ;
             TEXT-ALIGN: left;
@@ -417,7 +394,6 @@
        .tbbs .td1{
             width: 8%;
         }
-      
     </style>
 </head>
 <body>
